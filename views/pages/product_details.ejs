@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= product.pname %></title>
+  <style>
+    body {
+      background-color: #f3f3f3;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 50px auto;
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      border-radius: 12px;
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .product-image {
+      flex: 1;
+      text-align: center;
+    }
+
+    .product-image img {
+      width: 400px;
+      height: 350px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .product-details {
+      flex: 2;
+    }
+
+    .product-details h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .product-details p {
+      font-size: 20px;
+      margin: 10px 0;
+      color: #555;
+    }
+
+    .product-details p span {
+      font-weight: 600;
+      color: #222;
+    }
+
+    .price {
+      font-size: 28px;
+      color: #b12704;
+      margin: 15px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: #ffa41c;
+      color: #222;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-top: 25px;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #ff8f00;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin: 30px auto 0;
+      text-align: center;
+      font-size: 18px;
+      text-decoration: none;
+      color: #007185;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="product-image">
+      <img src="/images/<%= product.img_path %>" alt="<%= product.pname %>">
+    </div>
+
+    <div class="product-details">
+      <h2><%= product.pname %></h2>
+      <p><span>Brand:</span> <%= product.pbrand %></p>
+      <p><span>Description:</span> <%= product.pdes %></p>
+      <p class="price"><span>Price: </span>₹<%= product.pcost %></p>
+      <a href="#" class="btn">Add to Cart</a>
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <a href="/products" class="back-link">← Back to Products</a>
+  </div>
+
+</body>
+</html>

@@ -17,18 +17,20 @@
     }
 
     .pro {
-      border: 2px solid black;
+      border: 2px solid rgb(254, 253, 253);
       border-radius: 15px;
-      padding: 20px;
+      padding: 15px;
       text-align: center;
       width: 240px;
       transition: transform 0.3s ease;
     }
 
     .pro img {
-      width: 240px;
-      height: 200px;
+      width: 160%;
+      height: 90%;
       border-radius: 1px;
+      max-width: 200px;
+      margin-bottom:5px;
     }
 
     .pro h4 {
@@ -77,15 +79,15 @@
   <h2 class="section-title">Our Latest Collections</h2>
 
   <div class="product">
-    <% result.forEach(function(item) { %>
+  <% result.forEach(function(item) { %>
     <div class="pro">
-      <img src="images/<%=item.img_path %>" alt="Bed">
-      <h4><%= item.pname %> </h4>
-      <p><b><%= item.pcost %> </b></p>
-      <button>Add to Cart</button>
+      <a href="/product/<%= item.id %>">
+        <img src="/images/<%= item.img_path %>" alt="<%= item.pname %>">
+      </a>
+      <h5><%= item.pname %></h5>
     </div>
-    <% }); %>  
-  </div>
+  <% }); %>  
+</div>
     <!--div class="pro">
       <img src="images\sofa.png" alt="Sofa">
       <h4>Modern Sofa Set</h4>

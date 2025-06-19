@@ -28,7 +28,34 @@ app.get('/products',function(req,res)
         database:"ecommerce_app"
 
     });
-    con.query("SELECT * from products;",(err,result)=>{
-        res.render('pages/products',{result:result});
+    con.query("CALL getproducts();",(err,result)=>{
+        res.render('pages/products',{result:result[0]});
+    });
+});
+
+//PRODUCTS DETAILS PAGE
+app.get('/product/:id', function(req, res) {
+    var con = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "22bai1452",
+        database: "ecommerce_app"
+    });
+    const prodId = req.params.id;
+    con.query("CALL getproddet(?);", [prodId], (err, result) => {
+        res.render('pages/product_details', { product: result[0][0] });
+  });
+});
+
+//CART PAGE
+app.get('/cart', function(req, res) {
+    var con = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "22bai1452",
+        database: "ecommerce_app"
+    });
+    con.query("CALL getcartitems();", (err, result) => {
+        res.render('pages/cart', { cartItems: result[0] });
     });
 });
