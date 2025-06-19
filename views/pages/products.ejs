@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Furniture</title>
+  <style>
+    body {
+      background-color: antiquewhite;
+    }
+
+    .product {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      padding: 40px 50px;
+      justify-content: center;
+      background-color: #fff8f0;
+    }
+
+    .pro {
+      border: 2px solid black;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      width: 240px;
+      transition: transform 0.3s ease;
+    }
+
+    .pro img {
+      width: 240px;
+      height: 200px;
+      border-radius: 1px;
+    }
+
+    .pro h4 {
+      margin: 15px 0 8px;
+      font-family: 'Segoe UI';
+      font-size: 20px;
+    }
+
+    .pro p {
+      margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .pro button {
+      color: white;
+      background-color: #099e1d;
+      border: none;
+      padding: 8px 25px;
+      margin-top: 12px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .pro button:hover {
+      background-color: #ccf47d;
+    }
+
+    .pro:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    h2.section-title {
+      text-align: center;
+      font-family: Cambria;
+      font-size: 36px;
+      margin: 30px 0 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2 class="section-title">Our Latest Collections</h2>
+
+  <div class="product">
+    <% result.forEach(function(item) { %>
+    <div class="pro">
+      <img src="images/<%=item.img_path %>" alt="Bed">
+      <h4><%= item.pname %> </h4>
+      <p><b><%= item.pcost %> </b></p>
+      <button>Add to Cart</button>
+    </div>
+    <% }); %>  
+  </div>
+    <!--div class="pro">
+      <img src="images\sofa.png" alt="Sofa">
+      <h4>Modern Sofa Set</h4>
+      <p><b>Rs. 25,000</b></p>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="pro">
+      <img src="images\dining.png" alt="Dining Table">
+      <h4>6-Seater Dining</h4>
+      <p><b>Rs. 20,000</b></p>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="pro">
+      <img src="images\study.png" alt="Study Table">
+      <h4>Study Desk</h4>
+      <p><b>Rs. 7,000</b></p>
+      <button>Add to Cart</button>
+    </div-->
+  
+</body>
+</html>

@@ -1,0 +1,120 @@
+body {
+    height: 670px;
+    margin: 0;
+    font-family: 'Segoe UI';
+}
+
+/* Navbar styles */
+div.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    background-color: #fff8f0;
+}
+
+/* Navigation Links */
+div.links {
+    display: flex;
+    gap: 30px;
+}
+
+div.links a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+
+div.d2 {
+    display: flex;
+    gap: 20px;
+}
+
+div.d2 img {
+    width: 35px;
+    height: 35px;
+}
+
+h1.bd {
+    font-size: 40px;
+    font-family: Cambria;
+    text-align: left;
+    padding: 150px 10px 0px 50px;
+}
+
+p.cnt {
+    font-family: Arial;
+    padding: 0px 10px 5px 50px;
+}
+
+button {
+    color: white;
+    background-color: #f69c28;
+    border: none;
+    padding: 8px 25px;
+    margin-left: 50px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+img.dim {
+    width: 290px;
+    height: 350px;
+    position: absolute;
+    top: 160px;
+    right: 170px;
+}
+img.dim-left {
+    width: 380px;
+    height: 250px;
+    position: absolute;
+    top: 160px;
+    right: 480px; 
+}
+img.dim, img.dim-left {
+    transition: transform 0.3s ease;
+}
+img.dim:hover, img.dim-left:hover {
+    transform: scale(1.07);
+}
+
+
+div.d1 {
+    background-color: #f2bb74;
+    padding-bottom: 220px;
+}
+
+div.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+div.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff8f0;
+    min-width: 160px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+div.dropdown-content a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 15px;
+    font-family: 'Segoe UI';
+}
+
+/* Show dropdown content on hover */
+div.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Highlight text on hover — no background change */
+div.dropdown-content a:hover {
+    color: #f69c28;  
+}
