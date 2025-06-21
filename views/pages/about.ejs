@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>About Us - Furniture Hub</title>
+  <link rel="stylesheet" href="css/webcss.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0e7db;
+    }
+
+    div.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    background-color: #fff8f0;
+}
+
+div.links {
+    display: flex;
+    gap: 30px;
+}
+
+div.links a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+    .navbar a:hover {
+      color: #f9d18f;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff8f0;
+      min-width: 160px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      z-index: 1;
+    }
+
+    .dropdown-content div {
+      padding: 12px 18px;
+      color: #333;
+      font-size: 16px;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .banner {
+      text-align: center;
+      padding: 10px 20px 30px;
+      background-color: #fff8f0;
+    }
+
+    .banner h1 {
+      font-size: 50px;
+      color: #7c3e25;
+      font-family: Cambria, serif;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 850px;
+      background-color: #f0e7db;
+      margin: 30px auto 60px;
+      padding: 45px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+      text-align: center;
+    }
+
+    .container p {
+      font-size: 18px;
+      color: #444;
+      line-height: 1.8;
+      margin: 15px 0;
+      text-align: justify;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="navbar">
+    <div class="links">
+      <a href="/website">HOME</a>
+      <a href="/about">ABOUT</a>
+      <a href="/contact">CONTACT</a>
+      <div class="dropdown">
+        <a href="#">CATEGORIES ▾</a>
+        <div class="dropdown-content">
+          <div>Bed</div>
+          <div>Dining</div>
+          <div>Living</div>
+          <div>Study</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner">
+    <h1>About Us</h1>
+  </div>
+
+  <div class="container">
+    <p>
+      Welcome to Furniture Hub — your go-to destination for premium, elegant, and modern furniture collections.
+      Our mission is to enhance your living spaces with designs that combine comfort, simplicity, and luxury.
+    </p>
+    <p>
+      From cozy beds to elegant dining sets, classy living room decor to functional study tables — we've got it all.
+      Each product is curated to transform your house into a warm, inviting, and beautiful home.
+    </p>
+    <p>
+      We believe every home deserves to be both beautiful and practical. Our collections are hand-picked to bring you 
+      furniture crafted from the finest materials, featuring thoughtful designs and lasting quality.
+    </p>
+    <p>
+      Shop with us and experience the joy of transforming your living space into a stunning showcase of style and comfort!
+    </p>
+  </div>
+
+</body>
+</html>

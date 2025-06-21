@@ -1,120 +1,157 @@
+/* Global styles */
 body {
-    height: 670px;
-    margin: 0;
-    font-family: 'Segoe UI';
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fef9f3;
 }
 
-/* Navbar styles */
-div.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 50px;
-    background-color: #fff8f0;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff8f0;
+  padding: 20px 50px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* Navigation Links */
-div.links {
-    display: flex;
-    gap: 30px;
+/* New left, center, right containers */
+.nav-left, .nav-center, .nav-right {
+  display: flex;
+  align-items: center;
 }
 
-div.links a {
-    text-decoration: none;
-    color: black;
-    font-size: 20px;
+/* Logo text styling */
+.nav-left .logo {
+  font-size: 34px;
+  font-family: 'Cambria', serif;
+  color: #e07b39;
+  margin-right: 10px;
 }
 
-
-div.d2 {
-    display: flex;
-    gap: 20px;
+/* Logo image */
+.nav-left .logoimg {
+  width: 50px;
+  height: 45px;
+  margin-left: 0;
 }
 
-div.d2 img {
-    width: 35px;
-    height: 35px;
+/* Nav links center */
+.nav-center a {
+  text-decoration: none;
+  color: #333;
+  margin: 0 20px;
+  font-size: 18px;
+  transition: color 0.3s ease;
 }
 
-h1.bd {
-    font-size: 40px;
-    font-family: Cambria;
-    text-align: left;
-    padding: 150px 10px 0px 50px;
+.nav-center a:hover {
+  color: #e07b39;
 }
 
-p.cnt {
-    font-family: Arial;
-    padding: 0px 10px 5px 50px;
+/* Dropdown adjustments */
+.nav-center .dropdown {
+  position: relative;
 }
 
-button {
-    color: white;
-    background-color: #f69c28;
-    border: none;
-    padding: 8px 25px;
-    margin-left: 50px;
-    border-radius: 15px;
-    cursor: pointer;
+.nav-center .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fffaf2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  padding: 10px 0;
+  min-width: 150px;
+  top: 30px;
+  left: 0;
 }
 
-img.dim {
-    width: 290px;
-    height: 350px;
-    position: absolute;
-    top: 160px;
-    right: 170px;
-}
-img.dim-left {
-    width: 380px;
-    height: 250px;
-    position: absolute;
-    top: 160px;
-    right: 480px; 
-}
-img.dim, img.dim-left {
-    transition: transform 0.3s ease;
-}
-img.dim:hover, img.dim-left:hover {
-    transform: scale(1.07);
+.nav-center .dropdown-content div {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #444;
+  cursor: pointer;
 }
 
-
-div.d1 {
-    background-color: #f2bb74;
-    padding-bottom: 220px;
+.nav-center .dropdown-content div:hover {
+  background-color: #ffe0c2;
 }
 
-div.dropdown {
-    position: relative;
-    display: inline-block;
+.nav-center .dropdown:hover .dropdown-content {
+  display: block;
 }
 
-div.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #fff8f0;
-    min-width: 160px;
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-    z-index: 1;
+/* Cart & Login icons right side */
+.nav-right a img {
+  width: 36px;
+  margin-left: 18px;
+  vertical-align: middle;
 }
 
-/* Links inside the dropdown */
-div.dropdown-content a {
-    color: black;
-    padding: 10px 16px;
-    text-decoration: none;
-    display: block;
-    font-size: 15px;
-    font-family: 'Segoe UI';
+/* Banner Section */
+.d1 {
+  text-align: left;
+  padding: 80px 20px;
+  background: linear-gradient(to right, #ffe5d0, #fff8f0);
 }
 
-/* Show dropdown content on hover */
-div.dropdown:hover .dropdown-content {
-    display: block;
+.d1 h1 {
+  font-size: 56px;
+  color: #333;
+  margin-bottom: 20px;
 }
 
-/* Highlight text on hover — no background change */
-div.dropdown-content a:hover {
-    color: #f69c28;  
+.d1 p {
+  font-size: 24px;
+  color: #555;
+  margin-bottom: 30px;
 }
+
+.d1 button {
+  background-color: #e07b39;
+  color: #fff;
+  border: none;
+  padding: 14px 30px;
+  font-size: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.d1 button:hover {
+  background-color: #cc5c1a;
+}
+
+/* Featured Brands */
+.d3 {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #fffaf2;
+  margin: 60px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.d3 h2 {
+  font-size: 40px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+p.brand {
+  display: inline-block;
+  margin: 15px;
+  padding: 14px 26px;
+  font-size: 22px;
+  border: 2px solid #e07b39;
+  background: #fff8f0;
+  color: #222;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+ img.imagee{
+    width: 500px;
+    height:280px;
+    position:absolute;
+    top: 250px;
+    right:25px;
+ }

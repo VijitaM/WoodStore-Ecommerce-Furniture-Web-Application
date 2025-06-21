@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Furniture</title>
+  <title><%= products[0].cate_name %></title>
   <style>
     body {
       background-color: antiquewhite;
@@ -11,9 +11,10 @@
 
     h2.section-title {
       text-align: center;
-      font-family: Cambria;
+      font-family: Cambria, serif;
       font-size: 36px;
       margin: 20px 0 40px;
+      color: #333;
     }
 
     .product-list {
@@ -77,28 +78,24 @@
       background-color: #ccf47d;
       color: black;
     }
-
   </style>
 </head>
 
 <body>
 
-  <h2 class="section-title">! Our Latest Collections !</h2>
+  <h2 class="section-title"><%= products[0].cate_name %></h2>
 
   <div class="product-list">
-    <% result.forEach(function(item) { %>
+    <% products.forEach(function(product) { %>
       <div class="product-item">
-        <a href="/product/<%= item.id %>">
-          <img src="/images/<%= item.img_path %>" alt="<%= item.pname %>">
+        <a href="/product/<%= product.id %>">
+          <img src="/images/<%= product.img_path %>" alt="<%= product.pname %>">
         </a>
         <div class="product-details">
-        <p style="font-family: 'Segoe UI'; font-size: 18px; font-weight: 700; color: #222; margin: 0 0 12px;">
-  <%= item.pname.toUpperCase() %> (<%= item.pbrand %>)</p>
-  <p style="font-family: 'Segoe UI'; font-size: 18px; font-weight:26px; color: #222; margin: 0 0 12px;">
-  <%= item.sdes %> 
-</p>
-          <p style="font-family: 'Segoe UI'; font-size: 18px;"> <b>Price:</b> ₹<%= item.pcost %></p>
-          <a href="/product/<%= item.id %>" class="view-link">View Details</a>
+          <h4><%= product.pname %></h4>
+          <p><b>Price:</b> ₹<%= product.pcost %></p>
+          <a href="/product/<%= product.id %>" class="view-link">View Details</a>
+          
         </div>
       </div>
     <% }); %>

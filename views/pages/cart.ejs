@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Cart</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f3f3f3; margin: 0; padding: 20px; }
+    h2.hd { text-align: center; }
+    table { width: 90%; margin: 30px auto; border-radius:15px; border-collapse: collapse; background: #fff; box-shadow: 0 6px 10px rgba(0,0,0,0.1); }
+    th, td { padding: 15px; border-bottom: 1px solid #ddd; text-align: center; }
+    th { background: #f78e48;}
+    img { width: 120px; height: 100px; }
+    .qty-btn { text-decoration: none; font-size: 20px; padding: 6px 12px; background:#f78e48; color: #222; border-radius: 6px; }
+    .qty-btn:hover { background: #fdaa73; }
+    .total { font-size: 24px; color: #b12704; font-weight: 600; }
+    .back-link { display: block; text-align: center; margin: 20px auto; text-decoration: none; color: #007185; font-size: 18px; }
+  </style>
+</head>
+<body>
+
+  <h2 class="hd">YOUR SHOPPING CART</h2>
+  <table>
+    <tr>
+      <th>Image</th>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Total</th>
+    </tr>
+
+    <% let grandTotal = 0; %>
+    <% cart.forEach(item => { grandTotal += item.total; %>
+      <tr>
+        <td><img src="/images/<%= item.img_path %>"></td>
+        <td><%= item.pname %></td>
+        <td>Rs. <%= item.pcost %></td>
+        <td>
+          <a href="/cart/decrement/<%= item.pid %>" class="qty-btn">-</a>
+          <%= item.quantity %>
+          <a href="/cart/increment/<%= item.pid %>" class="qty-btn">+</a>
+        </td>
+        <td>Rs. <%= item.total %></td>
+      </tr>
+    <% }) %>
+
+    <tr>
+      <td colspan="4" style="text-align:right; font-weight:600;"><h2>GRAND TOTAL:</h2></td>
+      <td class="total">₹<%= grandTotal %></td>
+    </tr>
+  </table>
+
+  <a href="/products" class="back-link">← Continue Shopping</a>
+
+</body>
+</html>

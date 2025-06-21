@@ -104,7 +104,8 @@
       <p><span>Brand:</span> <%= product.pbrand %></p>
       <p><span>Description:</span> <%= product.pdes %></p>
       <p class="price"><span>Price: </span>₹<%= product.pcost %></p>
-      <a href="#" class="btn">Add to Cart</a>
+      <a href="/addtocart/<%= product.id %>" class="btn">Add to Cart</a>
+
     </div>
   </div>
 
