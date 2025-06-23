@@ -15,11 +15,13 @@
       margin: 50px auto;
       background-color: #fff;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 40px;
+      padding: 20px;
       border-radius: 12px;
       display: flex;
       gap: 40px;
       align-items: flex-start;
+      margin-top: 120px;
+      margin-left: 250px;
     }
 
     .product-image {
@@ -80,7 +82,7 @@
 
     .back-link {
       display: inline-block;
-      margin: 30px auto 0;
+      margin: 5px 15px;
       text-align: center;
       font-size: 18px;
       text-decoration: none;
@@ -90,9 +92,123 @@
     .back-link:hover {
       text-decoration: underline;
     }
+
+/* Navbar — fixed to top */
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #fff8f0;
+  padding: 10px 20px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  height: 70px;
+}
+
+/* Left section */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-left .logoimg {
+  width: 50px;
+  height: 45px;
+  margin-right: 8px;
+}
+
+.nav-left .logo {
+  font-size: 30px;
+  font-family: 'Cambria', serif;
+  color: #e07b39;
+}
+
+/* Right section */
+.nav-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.nav-right a img {
+  width: 34px;
+  height: 34px;
+  margin-left: 16px;
+  transition: transform 0.2s ease;
+}
+
+.nav-right a img:hover {
+  transform: scale(1.15);
+}
+
+.sidenav {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 200px;
+  height: calc(100% - 70px);
+  background-color:#cee9fe;
+  padding-top: 20px;
+  overflow-x: hidden;
+  z-index: 10;
+}
+
+.sidenav a {
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #150000;
+  display: block;
+  transition: background 0.3s, color 0.3s;
+}
+
+.sidenav a:hover {
+  background-color: #333;
+  color: #ffa41c;
+}
+
+ .cart-count {
+          position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ff8708;
+        color: white;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 50%;
+        font-weight: bold;
+        }
+
   </style>
 </head>
 <body>
+  <div class="sidenav">
+  <a href="/website">HOME</a>
+  <a href="/about">ABOUT</a>
+  <a href="/contact">CONTACT</a>
+  <a href="#">CATEGORIES</a>
+  <a href="/category/4521" style="font-size: 18px; padding-left: 30px;">► Bed</a>
+  <a href="/category/3648" style="font-size: 18px; padding-left: 30px;">► Dining</a>
+  <a href="/category/1831" style="font-size: 18px; padding-left: 30px;">► Living</a>
+  <a href="/category/7895" style="font-size: 18px; padding-left: 30px;">► Study</a>
+</div>
+
+   <div class="navbar">
+  <div class="nav-left">
+    <img src="/images/logo.png" class="logoimg">
+    <p class="logo"><b>WOOD <span style="color:black">STORE</span></b></p>
+  </div>
+  <div class="nav-right">
+  <a href="/cart" style="position: relative;">
+    <img src="/images/img7c.png" alt="cart">
+    <span class="cart-count" id="cart-count">0</span>
+  </a>
+  <a href="/login"><img src="/images/login1.png" alt="login"></a>
+</div>
+</div>
 
   <div class="container">
     <div class="product-image">
@@ -104,14 +220,30 @@
       <p><span>Brand:</span> <%= product.pbrand %></p>
       <p><span>Description:</span> <%= product.pdes %></p>
       <p class="price"><span>Price: </span>₹<%= product.pcost %></p>
-      <a href="/addtocart/<%= product.id %>" class="btn">Add to Cart</a>
-
+      
+      <% if (qty > 0) { %>
+  
+    <a href="/cart" class="btn">Go to Cart</a> 
+  </a>
+<% } else { %>
+  <a href="/addtocart/<%= product.id %>" class="btn">Add to Cart</a>
+<% } %>
+  </div>
     </div>
   </div>
 
   <div style="text-align:center;">
     <a href="/products" class="back-link">← Back to Products</a>
   </div>
-
+<script>
+  window.onload = function() {
+    const userId = "abc123";
+    fetch(`/cartitemcount/${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("cart-count").innerText = data.count;
+      });
+  };
+</script>
 </body>
 </html>

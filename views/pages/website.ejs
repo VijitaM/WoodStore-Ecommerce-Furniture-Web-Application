@@ -8,6 +8,18 @@
         #grad1 {
             background-color: antiquewhite;
         }
+        .cart-count {
+          position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ff8708;
+        color: white;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 50%;
+        font-weight: bold;
+        }
+
     </style>
 </head>
 
@@ -23,7 +35,7 @@
     <a href="/about">ABOUT</a>
     <a href="/contact">CONTACT</a>
     <div class="dropdown">
-      <a href="#">CATEGORIES ↓</a>
+      <a href="#">CATEGORIES ▼</a>
       <div class="dropdown-content">
         <a href="/category/4521">Bed</a>
         <a href="/category/3648">Dining</a>
@@ -34,9 +46,13 @@
   </div>
 
   <div class="nav-right">
-    <a href="/cart"><img src="images/img7c.png" alt="cart"></a>
-    <a href="/login"><img src="images/login1.png" alt="login"></a>
-  </div>
+  <a href="/cart" style="position: relative;">
+    <img src="/images/img7c.png" alt="cart">
+    <span class="cart-count" id="cart-count">0</span>
+  </a>
+  <a href="/login"><img src="/images/login1.png" alt="login"></a>
+</div>
+
 </div>
 
     <div class="d1">
@@ -54,5 +70,16 @@
         <p class="brand">HOMES & BEYOND</p>
     </div>
     <img class="imagee" src="images\homepg.png" alt="left image">
+<script>
+  window.onload = function() {
+    const userId = "abc123";
+    fetch(`/cartitemcount/${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("cart-count").innerText = data.count;
+      });
+  };
+</script>
+
 </body>
 </html>

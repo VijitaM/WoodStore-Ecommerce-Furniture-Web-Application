@@ -13,9 +13,136 @@
     .qty-btn:hover { background: #fdaa73; }
     .total { font-size: 24px; color: #b12704; font-weight: 600; }
     .back-link { display: block; text-align: center; margin: 20px auto; text-decoration: none; color: #007185; font-size: 18px; }
+    .navbar {
+  display: flex;
+  align-items: center;
+  background-color: #fff8f0;
+  padding: 10px 20px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  height: 70px;
+}
+
+/* Left section */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-left .logoimg {
+  width: 50px;
+  height: 45px;
+  margin-right: 8px;
+}
+
+.nav-left .logo {
+  font-size: 30px;
+  font-family: 'Cambria', serif;
+  color: #e07b39;
+}
+
+/* Center section (nav links) */
+.nav-center {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.nav-center a {
+  text-decoration: none;
+  color: #333;
+  margin: 0 20px;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.nav-center a:hover {
+  color: #e07b39;
+}
+
+/* Dropdown adjustments */
+.nav-center .dropdown {
+  position: relative;
+}
+
+.nav-center .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fffaf2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  padding: 10px 0;
+  min-width: 150px;
+  top: 30px;
+  left: 0;
+}
+
+.nav-center .dropdown-content a {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #444;
+  text-decoration: none;
+  display: block;
+}
+
+.nav-center .dropdown-content a:hover {
+  background-color: #ffe0c2;
+}
+
+.nav-center .dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Right section */
+.nav-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.nav-right a img {
+  width: 34px;
+  height: 34px;
+  margin-left: 16px;
+  transition: transform 0.2s ease;
+}
+
+.nav-right a img:hover {
+  transform: scale(1.15);
+}
+
   </style>
 </head>
 <body>
+  <div class="navbar">
+  <div class="nav-left">
+    <img src="/images/logo.png" class="logoimg">
+    <p class="logo"><b>WOOD <span style="color:black">STORE</span></b></p>
+  </div>
+
+  <div class="nav-center">
+    <a href="/website">HOME</a>
+    <a href="/about">ABOUT</a>
+    <a href="/contact">CONTACT</a>
+    <div class="dropdown">
+      <a href="#">CATEGORIES ▼</a>
+      <div class="dropdown-content">
+        <a href="/category/4521">Bed</a>
+        <a href="/category/3648">Dining</a>
+        <a href="/category/1831">Living</a>
+        <a href="/category/7895">Study</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-right">
+    <a href="/login"><img src="/images/login1.png" alt="login"></a>
+  </div>
+</div>
 
   <h2 class="hd">YOUR SHOPPING CART</h2>
   <table>

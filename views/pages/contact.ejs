@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>About Us - Furniture Hub</title>
+  <link rel="stylesheet" href="css/webcss.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0e7db;
+    }
+
+    div.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    background-color: #fff8f0;
+}
+
+div.links {
+    display: flex;
+    gap: 30px;
+}
+
+div.links a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+    .navbar a:hover {
+      color: #f9d18f;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff8f0;
+      min-width: 160px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      z-index: 1;
+    }
+
+    .dropdown-content div {
+      padding: 12px 18px;
+      color: #333;
+      font-size: 16px;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .banner {
+      text-align: center;
+      padding: 10px 20px 30px;
+      background-color: #fff8f0;
+    }
+
+    .banner h1 {
+      font-size: 50px;
+      color: #7c3e25;
+      font-family: Cambria, serif;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 850px;
+      background-color: #f0e7db;
+      margin: 30px auto 60px;
+      padding: 45px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+      text-align: center;
+    }
+
+    .container p {
+      font-size: 18px;
+      color: #444;
+      line-height: 1.8;
+      margin: 15px 0;
+      text-align: justify;
+    }
+
+    .contactinfo {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.contact-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 220px;
+  margin: 20px 10px;
+}
+
+.contact-block img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 15px;
+}
+
+.contact-block p {
+  font-size: 18px;
+  color: #333;
+  margin: 8px 0;
+}
+
+.contact-block b {
+  font-size: 20px;
+  color: #7c3e25;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <div class="navbar">
+    <div class="links">
+      <a href="/website">HOME</a>
+      <a href="/about">ABOUT</a>
+      <a href="/contact">CONTACT</a>
+      <div class="dropdown">
+        <a href="#">CATEGORIES ▾</a>
+        <div class="dropdown-content">
+          <div>Bed</div>
+          <div>Dining</div>
+          <div>Living</div>
+          <div>Study</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner">
+    <h1>Contact Us</h1>
+  </div>
+
+  <div class="container">
+    <h2>GET IN TOUCH</h2>
+<div class="contactinfo">
+  <div class="contact-block">
+    <img src="/images/add-removebg-preview.png" alt="Location">
+    <p><b>ADDRESS</b></p>
+    <p style="text-align: center;">123 Wood Street, Chennai, India.</p>
+  </div>
+
+  <div class="contact-block">
+    <img src="/images/phone-removebg-preview.png" alt="Phone">
+    <p><b>PHONE</b></p>
+    <p>+91 70104 22051</p>
+  </div>
+
+  <div class="contact-block">
+    <img src="/images/email-removebg-preview.png" alt="Email">
+    <p><b>EMAIL</b></p>
+    <p>support@woodstore.com</p>
+  </div>
+</div>
+
+
+</body>
+</html>

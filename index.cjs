@@ -55,9 +55,14 @@ app.get('/product/:id', (req, res) => {
             console.error("Error fetching product details:", err);
             return res.status(500).send("Database error");
         }
-        res.render('pages/product_details', { product: result[0][0] });
+        con.query("SELECT quantity FROM cart WHERE user_id = ? AND pid = ?", [userId, prodId], (err2, cartResult) => {
+            if (err2) throw err2;
+             const qtyInCart = cartResult.length > 0 ? cartResult[0].quantity : 0;
+        res.render('pages/product_details', { product: result[0][0],qty: qtyInCart });
     });
 });
+});
+
 
 // ADD TO CART
 app.get('/addtocart/:id', (req, res) => {
@@ -143,5 +148,22 @@ app.get('/category/:cid', (req, res) => {
     } else {
       res.render("pages/category", { products: result });
     }
+  });
+});
+
+//CATEGORYCOUT ITEM ICON 
+app.get('/cartitemcount/:userid', (req, res) => {
+  const uid = req.params.userid;
+  const sql = `CALL getcartitemcount(?)`;
+  var conn = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "22bai1452",
+    database: "ecommerce_app"
+});
+
+  conn.query(sql, [uid], (err, result) => {
+    if (err) return res.status(500).send(err);
+    res.json({ count: result[0][0].itemCount });
   });
 });
