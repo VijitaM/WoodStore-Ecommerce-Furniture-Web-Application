@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Your Cart</title>
+  <title>Profile Page</title>
   <style>
     body { font-family: 'Segoe UI', sans-serif;  background: radial-gradient(circle, #fff8f0 0%, #ffe6cc 40%, #ffd5b5 100%); margin: 0; padding: 20px; }
     h2.hd { text-align: center; }
@@ -13,7 +13,7 @@
     .qty-btn:hover { background: #fdaa73; }
     .total { font-size: 24px; color: #b12704; font-weight: 600; }
     .back-link { display: block; text-align: center; margin: 20px auto; text-decoration: none; color: #007185; font-size: 18px; }
-    .navbar {
+.navbar {
   display: flex;
   align-items: center;
   background-color: #fff8f0;
@@ -161,46 +161,5 @@
   </div>
 </div>
 
-<% if (cart.length === 0) { %>
-  <div class ="hd">
-    <h3 style="color:#690563; margin-top:120px; text-align: center; margin-bottom: 330px;" >YOUR CART IS EMPTY :( </h3>
-    <a href="/products" class="back-link">← Continue Shopping</a>
-  </div>
-  <% } else { %>
-
-  <h2 class="hd">YOUR SHOPPING CART</h2>
-  <table>
-    <tr>
-      <th>Image</th>
-      <th>Product</th>
-      <th>Price</th>
-      <th>Quantity</th>
-      <th>Total</th>
-    </tr>
-
-    <% let grandTotal = 0; %>
-    <% cart.forEach(item => { grandTotal += item.total; %>
-      <tr>
-        <td><img src="/images/<%= item.img_path %>"></td>
-        <td><%= item.pname %></td>
-        <td><%= formatCurrency(item.pcost) %></td>
-        <td>
-          <a href="/cart/decrement/<%= item.pid %>" class="qty-btn">-</a>
-          <%= item.quantity %>
-          <a href="/cart/increment/<%= item.pid %>" class="qty-btn">+</a>
-        </td>
-        <td><%= formatCurrency(item.pcost) %></td>
-      </tr>
-    <% }) %>
-
-    <tr>
-      <td colspan="4" style="text-align:right; font-weight:600;"><h2>GRAND TOTAL:</h2></td>
-      <td class="total"><%= formatCurrency(grandTotal) %></td>
-    </tr>
-  </table>
-  <form action="/placeorder" method="POST" style="text-align: center;">
-    <button type="submit" class="btn">Checkout</button>
-  <a href="/products" class="back-link">← Continue Shopping</a>
-<% } %>
 </body>
 </html>

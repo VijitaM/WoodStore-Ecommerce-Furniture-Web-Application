@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Orders</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle, #fff8f0 0%, #ffe6cc 40%, #ffd5b5 100%);
+      margin: 0;
+      padding: 80px 20px 30px;
+    }
+
+    h2 {
+      font-size: 34px;
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .order-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      margin: 20px auto;
+      max-width: 1100px;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .order-header span {
+      font-size: 16px;
+      color: #555;
+    }
+
+    .order-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .item-card {
+      display: flex;
+      background: #fff8f0;
+      border-radius: 10px;
+      padding: 12px;
+      width: calc(50% - 10px);
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .item-card img {
+      width: 90px;
+      height: 90px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-right: 18px;
+    }
+
+    .item-details {
+      flex: 1;
+    }
+
+    .item-details h4 {
+      margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .item-details p {
+      margin: 6px 0;
+      font-size: 15px;
+      color: #555;
+    }
+
+    .total-amount {
+      text-align: right;
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #222;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #007185;
+    }
+     .navbar {
+  display: flex;
+  align-items: center;
+  background-color: #fff8f0;
+  padding: 10px 20px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  height: 70px;
+}
+
+/* Left section */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-left .logoimg {
+  width: 50px;
+  height: 45px;
+  margin-right: 8px;
+}
+
+.nav-left .logo {
+  font-size: 30px;
+  font-family: 'Cambria', serif;
+  color: #e07b39;
+}
+
+/* Center section (nav links) */
+.nav-center {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.nav-center a {
+  text-decoration: none;
+  color: #333;
+  margin: 0 20px;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.nav-center a:hover {
+  color: #e07b39;
+}
+
+/* Dropdown adjustments */
+.nav-center .dropdown {
+  position: relative;
+}
+
+.nav-center .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fffaf2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  padding: 10px 0;
+  min-width: 150px;
+  top: 30px;
+  left: 0;
+}
+
+.nav-center .dropdown-content a {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #444;
+  text-decoration: none;
+  display: block;
+}
+
+.nav-center .dropdown-content a:hover {
+  background-color: #ffe0c2;
+}
+
+.nav-center .dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Right section */
+.nav-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.nav-right a img {
+  width: 34px;
+  height: 34px;
+  margin-left: 16px;
+  transition: transform 0.2s ease;
+}
+
+.nav-right a img:hover {
+  transform: scale(1.15);
+}
+  </style>
+</head>
+<body>
+  <div class="navbar">
+  <div class="nav-left">
+    <img src="/images/logo.png" class="logoimg">
+    <p class="logo"><b>WOOD <span style="color:black">STORE</span></b></p>
+  </div>
+
+  <div class="nav-center">
+    <a href="/website">HOME</a>
+    <a href="/about">ABOUT</a>
+    <a href="/contact">CONTACT</a>
+    <div class="dropdown">
+      <a href="#">CATEGORIES ▼</a>
+      <div class="dropdown-content">
+        <a href="/category/4521">Bed</a>
+        <a href="/category/3648">Dining</a>
+        <a href="/category/1831">Living</a>
+        <a href="/category/7895">Study</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-right">
+    <a href="/login"><img src="/images/login1.png" alt="login"></a>
+  </div>
+</div>
+<h2>Your Orders</h2>
+
+<% if (orders.length === 0) { %>
+  <p style="text-align:center; font-size:20px;">No orders placed yet!</p>
+<% } else { %>
+
+  <% 
+    var groupedOrders = {};
+    orders.forEach(function(o) {
+      if (!groupedOrders[o.order_id]) groupedOrders[o.order_id] = [];
+      groupedOrders[o.order_id].push(o);
+    });
+  %>
+
+  <% Object.keys(groupedOrders).forEach(function(orderId) { %>
+    <div class="order-card">
+      <div class="order-header">
+        <span>Order ID: <%= orderId %></span>
+        <span>Placed on: <%= new Date(groupedOrders[orderId][0].date).toLocaleString() %></span>
+      </div>
+
+      <div class="order-items">
+        <% groupedOrders[orderId].forEach(function(item) { %>
+          <div class="item-card">
+            <img src="/images/<%= item.img_path %>" alt="<%= item.pname %>" style="width:100px; height:100px; border-radius:10px;">
+            <div class="item-details">
+              <h4><%= item.pname %></h4>
+              <p>Qty: <%= item.qty %></p>
+              <p>Price: <%= formatCurrency(item.pcost) %></p>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+
+      <div class="total-amount">
+        Order Total: <%= formatCurrency(groupedOrders[orderId][0].totalamt)%>
+      </div>
+    </div>
+  <% }); %>
+<% } %>
+<a href="/website" class="back-link">← Back to Home</a>
+
+</body>
+</html>

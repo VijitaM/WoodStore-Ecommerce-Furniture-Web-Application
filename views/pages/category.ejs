@@ -4,7 +4,7 @@
   <title><%= products[0].cate_name %></title>
   <style>
     body {
-      background-color:#f3f3f3;;
+     background: radial-gradient(circle, #fff8f0 0%, #ffe6cc 40%, #ffd5b5 100%);
       font-family: 'Segoe UI', sans-serif;
       padding: 30px;
     }
@@ -21,7 +21,7 @@
         }
 
     h2.section-title {
-      text-align: center;
+      margin-left: 700px;;
       font-family: Cambria, serif;
       font-size: 30px;
       margin-top:70px;
@@ -44,6 +44,7 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       align-items: center;
       transition: transform 0.3s ease;
+      margin-left:120px;
     }
 
     .product-item:hover {
@@ -77,7 +78,7 @@
     .view-link {
       display: inline-block;
       padding: 10px 20px;
-      background-color: #099e1d;
+      background-color: #ff8708;
       color: white;
       text-decoration: none;
       border-radius: 10px;
@@ -86,14 +87,14 @@
     }
 
     .view-link:hover {
-      background-color: #ccf47d;
+      background-color:#fb9c35;
       color: black;
     }
 
-    /* Navbar — fixed to top */
-.navbar {
+    .navbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background-color: #fff8f0;
   padding: 10px 20px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
@@ -105,7 +106,6 @@
   height: 70px;
 }
 
-/* Left section */
 .nav-left {
   display: flex;
   align-items: center;
@@ -123,11 +123,31 @@
   color: #e07b39;
 }
 
-/* Right section */
+.nav-center {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  justify-content: center;
+}
+
+.nav-center a {
+  text-decoration: none;
+  color: #333;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+
+.nav-center a:hover {
+  color: #e07b39;
+}
+
 .nav-right {
   display: flex;
   align-items: center;
-  margin-left: auto;
+}
+
+.nav-right a {
+  position: relative;
 }
 
 .nav-right a img {
@@ -143,14 +163,15 @@
 
 .sidenav {
   position: fixed;
-  top: 70px;
+  top: 80px;
   left: 0;
   width: 200px;
   height: calc(100% - 70px);
-  background-color:#cee9fe;
+   background-color:#ffe6cc 40%;
   padding-top: 20px;
   overflow-x: hidden;
   z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .sidenav a {
@@ -171,20 +192,28 @@
 
 <body>
   <div class="sidenav">
-  <a href="/website">HOME</a>
-  <a href="/about">ABOUT</a>
-  <a href="/contact">CONTACT</a>
-  <a href="#">CATEGORIES</a>
+  <a href="#"><b>CATEGORIES→</b></a>
   <a href="/category/4521" style="font-size: 18px; padding-left: 30px;">► Bed</a>
   <a href="/category/3648" style="font-size: 18px; padding-left: 30px;">► Dining</a>
   <a href="/category/1831" style="font-size: 18px; padding-left: 30px;">► Living</a>
   <a href="/category/7895" style="font-size: 18px; padding-left: 30px;">► Study</a>
+  <a href="#"><b>BRANDS→</b></a>
+  <a href="/brand/Ikea" style="font-size: 18px; padding-left: 30px;">► IKEA</a>
+  <a href="/brand/wipro" style="font-size: 18px; padding-left: 30px;">► Wipro</a>
+  <a href="/brand/Godrej" style="font-size: 18px; padding-left: 30px;">► Godrej</a>
+  <a href="/brand/Sleepwell" style="font-size: 18px; padding-left: 30px;">► Sleepwell</a>
+  <a href="/brand/Spacewood" style="font-size: 18px; padding-left: 30px;">► Spacewood</a>
 </div>
 
 <div class="navbar">
   <div class="nav-left">
     <img src="/images/logo.png" class="logoimg">
     <p class="logo"><b>WOOD <span style="color:black">STORE</span></b></p>
+  </div>
+  <div class="nav-center">
+    <a href="/website">HOME</a>
+    <a href="/about">ABOUT</a>
+    <a href="/contact">CONTACT</a>
   </div>
   <div class="nav-right">
   <a href="/cart" style="position: relative;">
@@ -204,17 +233,19 @@
           <img src="/images/<%= product.img_path %>" alt="<%= product.pname %>">
         </a>
         <div class="product-details">
-          <h4><%= product.pname %></h4>
-          <p><b>Price:</b> ₹<%= product.pcost %></p>
+        <p style="font-family: 'Segoe UI'; font-size: 18px; font-weight: 700; color: #222; margin: 0 0 12px;">
+  <%= product.pname.toUpperCase() %> (<%=product.pbrand %>)</p>
+  <p style="font-family: 'Segoe UI'; font-size: 18px; font-weight:26px; color: #222; margin: 0 0 12px;">
+  <%= product.sdes %> </p>
+          <p><b>Price: <%= formatCurrency(product.pcost) %></b></p>
           <a href="/product/<%= product.id %>" class="view-link">View Details</a>
-          
         </div>
       </div>
     <% }); %>
   </div>
 <script>
   window.onload = function() {
-    const userId = "abc123";
+    const userId = "9juh8p";
     fetch(`/cartitemcount/${userId}`)
       .then(res => res.json())
       .then(data => {

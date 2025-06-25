@@ -1,111 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= product.pname %></title>
+  <title><%= pbrand %> Products</title>
   <style>
-    body { 
+    body {
       background: radial-gradient(circle, #fff8f0 0%, #ffe6cc 40%, #ffd5b5 100%);
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
+      padding: 30px;
+    }
+       .cart-count {
+          position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ff8708;
+        color: white;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 50%;
+        font-weight: bold;
+        }
+
+    h3.section-title {
+      margin-left: 580px;
+      font-family: Cambria, serif;
+      font-size: 30px;
+      margin-top:70px;
+      color: #333;
     }
 
-    .container {
-      max-width: 1000px;
-      margin: 50px auto;
-      background-color: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      border-radius: 12px;
+    .product-list {
       display: flex;
-      gap: 40px;
-      align-items: flex-start;
-      margin-top: 120px;
-      margin-left: 250px;
+      flex-direction: column;
+      gap: 25px;
+      max-width: 1000px;
+      margin: 0 auto;
     }
 
-    .product-image {
-      flex: 1;
-      text-align: center;
+    .product-item {
+      display: flex;
+      background-color: #fff8f0;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      align-items: center;
+      transition: transform 0.3s ease;
+      margin-left:120px;
     }
 
-    .product-image img {
-      width: 400px;
-      height: 350px;
+    .product-item:hover {
+      transform: scale(1.02);
+    }
+
+    .product-item img {
+      width: 240px;
+      height: 200px;
       border-radius: 10px;
       object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      margin-right: 30px;
     }
 
     .product-details {
-      flex: 2;
+      flex: 1;
     }
 
-    .product-details h2 {
-      font-size: 32px;
-      margin-bottom: 20px;
-      color: #333;
+    .product-details h4 {
+      font-size: 26px;
+      margin: 0 0 12px;
+      color: #222;
     }
 
     .product-details p {
       font-size: 20px;
-      margin: 10px 0;
-      color: #555;
+      margin: 5px 0;
+      color: #333;
     }
 
-    .product-details p span {
-      font-weight: 600;
-      color: #222;
-    }
-
-    .price {
-      font-size: 28px;
-      color: #b12704;
-      margin: 15px 0;
-    }
-
-    .btn {
+    .view-link {
       display: inline-block;
-      padding: 12px 30px;
-      background-color: #ffa41c;
-      color: #222;
-      font-weight: 600;
+      padding: 10px 20px;
+      background-color: #ff8708;
+      color: white;
       text-decoration: none;
-      border-radius: 8px;
-      margin-top: 25px;
-      transition: background 0.3s ease;
-    }
-
-    .btn:hover {
-      background-color: #ff8f00;
-    }
-
-    .bttn {
-      display: inline-block;
-      padding: 12px 30px;
-      background-color:#3abf23;
-      color: #222;
-      font-weight: 600;
-      text-decoration: none;
-      border-radius: 8px;
-      margin-top: 25px;
-      transition: background 0.3s ease;
-    }
-
-    .back-link {
-      display: inline-block;
-      margin: 5px 15px;
-      text-align: center;
+      border-radius: 10px;
+      margin-top: 15px;
       font-size: 18px;
-      text-decoration: none;
-      color: #007185;
     }
 
-    .back-link:hover {
-      text-decoration: underline;
+    .view-link:hover {
+      background-color: #fb9c35;
+      color: black;
     }
 
-.navbar {
+    .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -175,26 +161,13 @@
   transform: scale(1.15);
 }
 
-.cart-count {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #ff8708;
-  color: white;
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 50%;
-  font-weight: bold;
-}
-
-
 .sidenav {
   position: fixed;
   top: 80px;
   left: 0;
   width: 200px;
   height: calc(100% - 70px);
-  background-color:#ffe6cc 40%;
+   background-color:#ffe6cc 40%;
   padding-top: 20px;
   overflow-x: hidden;
   z-index: 10;
@@ -217,13 +190,13 @@
   </style>
 </head>
 <body>
-  <div class="sidenav">
-  <a href="#">CATEGORIES→</a>
+     <div class="sidenav">
+  <a href="#"><b>CATEGORIES→</b></a>
   <a href="/category/4521" style="font-size: 18px; padding-left: 30px;">► Bed</a>
   <a href="/category/3648" style="font-size: 18px; padding-left: 30px;">► Dining</a>
   <a href="/category/1831" style="font-size: 18px; padding-left: 30px;">► Living</a>
   <a href="/category/7895" style="font-size: 18px; padding-left: 30px;">► Study</a>
-  <a href="#">BRANDS→</a>
+  <a href="#"><b>BRANDS→</b></a>
   <a href="/brand/Ikea" style="font-size: 18px; padding-left: 30px;">► IKEA</a>
   <a href="/brand/wipro" style="font-size: 18px; padding-left: 30px;">► Wipro</a>
   <a href="/brand/Godrej" style="font-size: 18px; padding-left: 30px;">► Godrej</a>
@@ -231,7 +204,7 @@
   <a href="/brand/Spacewood" style="font-size: 18px; padding-left: 30px;">► Spacewood</a>
 </div>
 
-   <div class="navbar">
+<div class="navbar">
   <div class="nav-left">
     <img src="/images/logo.png" class="logoimg">
     <p class="logo"><b>WOOD <span style="color:black">STORE</span></b></p>
@@ -250,32 +223,23 @@
 </div>
 </div>
 
-  <div class="container">
-    <div class="product-image">
-      <img src="/images/<%= product.img_path %>" alt="<%= product.pname %>">
-    </div>
-
-    <div class="product-details">
-      <h2><%= product.pname %></h2>
-      <p><span>Brand:</span> <%= product.pbrand %></p>
-      <p><span>Description:</span> <%= product.pdes %></p>
-      <p class="price"><span>Price: </span><b><%= formatCurrency(product.pcost) %></b></p>
-      
-      <% if (qty > 0) { %>
-  
-    <a href="/cart" class="bttn">Go to Cart</a> 
-  </a>
-<% } else { %>
-  <a href="/addtocart/<%= product.id %>" class="btn">Add to Cart</a>
-<% } %>
+  <h3 class="section-title"><%= pbrand.toUpperCase() %> COLLECTIONS</h3>
+  <div class="product-list">
+    <% brandProducts.forEach(function(product) { %>
+      <div class="product-item">
+        <a href="/product/<%= product.id %>">
+          <img src="/images/<%= product.img_path %>" alt="<%= product.pname %>">
+        </a>
+        <div class="product-details">
+          <p style="font-weight:700;"><%= product.pname.toUpperCase() %> (<%= product.pbrand %>)</p>
+          <p><%= product.sdes %></p>
+          <p><b>Price: <%= formatCurrency(product.pcost) %></b></p>
+          <a href="/product/<%= product.id %>" class="view-link">View Details</a>
+        </div>
+      </div>
+    <% }) %>
   </div>
-    </div>
-  </div>
-
-  <div style="text-align:center;">
-    <a href="/products" class="back-link">← Back to Products</a>
-  </div>
-<script>
+  <script>
   window.onload = function() {
     const userId = "9juh8p";
     fetch(`/cartitemcount/${userId}`)
