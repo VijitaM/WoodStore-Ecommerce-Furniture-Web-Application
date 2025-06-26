@@ -126,9 +126,9 @@ body {
 /* Featured Brands */
 .d3 {
   text-align: center;
-  padding: 50px 20px;
-  background-color: #fff8f0;
-  margin: 60px 0;
+  padding: 20px 20px;
+  background-color:#fde7cd;
+  margin: 40px 0;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
@@ -143,10 +143,10 @@ p.brand {
   margin: 15px;
   padding: 14px 26px;
   font-size: 22px;
-  border: 2px solid #e07b39;
-  background: #fff8f0;
+  border: 3px solid #e07b39;
+  background:#fde7cd;
   color: #222;
-  border-radius: 30px;
+  border-radius: 10px;
   transition: all 0.3s ease;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
 }

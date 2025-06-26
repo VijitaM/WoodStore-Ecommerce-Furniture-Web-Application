@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>User Profile</title>
+  <title>Order Placed</title>
   <style>
-    body {
+     body {
       font-family: 'Segoe UI', sans-serif;
       background: radial-gradient(circle, #fff8f0 0%, #ffe6cc 40%, #ffd5b5 100%);
       margin: 0;
@@ -95,61 +95,9 @@
     .nav-right a img:hover {
       transform: scale(1.15);
     }
-
-    /* Page Content */
-    .page-content {
-      max-width: 900px;
-      margin: 120px auto 50px;
-      padding: 0 20px;
-    }
-
-    h2 {
-      font-size: 32px;
-      text-align: center;
-      color: #333;
-      margin-bottom: 40px;
-    }
-
-    .card {
-      background: #ffffff43;
-      border-radius: 10px;
-      padding: 25px;
-      margin-bottom: 30px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      font-size: 24px;
-      color: #e07b39;
-      border-bottom: 1px solid #f0c9a1;
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-    }
-
-    .card p {
-      font-size: 18px;
-      margin: 10px 0;
-      color: #444;
-    }
-
-    .btn {
-      display: inline-block;
-      background: #e07b39;
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      margin-top: 15px;
-      transition: background 0.3s ease;
-    }
-    .btn:hover {
-      background: #d16928;
-    }
   </style>
 </head>
 <body>
-
 <!-- Navbar -->
 <div class="navbar">
   <div class="nav-left">
@@ -177,32 +125,30 @@
   </div>
 </div>
 
-<div class="page-content">
-  <h2>MY ACCOUNT</h2>
+<h3 style="text-align:center; margin-top:150px">Order Placed Successfully!</h3>
 
-  <!-- Profile Details -->
-  <div class="card">
-    <h3><img src="/images/profdet-removebg-preview.png" width="30" border-radius="40px" alt="User Icon">  Profile Details</h3>
-    <p><strong>Name:</strong> <%= user.user_name %></p>
-    <p><strong>Email:</strong> <%= user.email_id %></p>
-    <p><strong>User ID:</strong> <%= user.user_id %></p>
+<div class="order-card" style="max-width: 900px; margin-top:20px; margin-left:270px; padding: 20px; background: #ffffff51; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
+  <div class="order-header" style="display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; margin-bottom: 15px; padding-bottom: 10px;">
+    <span><strong>Order ID:</strong> <%= orderId %></span>
+    <span><strong>Placed on:</strong> <%= new Date(orderDate).toLocaleString() %></span>
   </div>
 
-  <!-- Address Details -->
-  <div class="card">
-    <h3><img src="/images/add-removebg-preview.png" width="40" border-radius="20px" alt="Address Icon">Address</h3>
-    <p><%= user.add1 %> <%= user.add2 %></p>
-    <p><%= user.city %> <%= user.state %> - <%= user.pincode %></p>
-    <p><img src="/images/phone-removebg-preview.png" width="40">  <%= user.phone %></p>
-  </div>
+  <% items.forEach(item => { %>
+    <div style="display: flex; margin-bottom: 15px;">
+      <img src="/images/<%= item.img_path %>" alt="<%= item.pname %>" style="width: 90px; height: 90px; object-fit: cover; border-radius: 8px; margin-right: 15px;">
+      <div>
+        <p><strong><%= item.pname.toUpperCase() %></strong></p>
+        <p>Qty: <%= item.quantity %>  Price: <%= formatCurrency(item.pcost) %></p>
+        <p>Order Total: <%= formatCurreny (item.pcost * item.quantity) %></p>
+      </div>
+    </div>
+  <% }) %>
 
-  <!-- Orders Button -->
-  <div class="card" style="text-align:center;">
-    <h3><img src="/images/orderhis-removebg-preview.png" width="40" border-radius="20px" alt="Address Icon">  Order History</h3>
-    <a href="/orders" class="btn">View Your Orders</a>
+  <div style="text-align: right; font-weight: 600; margin-top: 20px;">
+    Total: ₹<%= total %>
   </div>
-
 </div>
 
+<a href="/website" style="display:block; text-align:center; margin:30px 0; font-size:18px; text-decoration:none; color:#007185;">← Back to Home</a>
 </body>
 </html>

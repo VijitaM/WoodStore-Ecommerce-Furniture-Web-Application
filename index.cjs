@@ -193,7 +193,7 @@ app.get('/cartitemcount/:userid', (req, res) => {
 });
 
 //ORDER PLACING 
-app.post('/placeorder', (req, res) => {
+app.post('/orders', (req, res) => {
     var con = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -226,6 +226,45 @@ app.post('/placeorder', (req, res) => {
   });
 });
 
+//ORDER PLACEMENT PAGE
+app.post('/placeorder', (req, res) => {
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "22bai1452",
+    database: "ecommerce_app"
+});
+  con.query("SELECT c.pid, c.quantity, p.pcost, p.img_path, p.pname FROM cart c JOIN products p ON c.pid=p.id WHERE user_id = ?", [userId], (err, cartItems) => {
+    if (err) return res.send("Error fetching cart");
+    if (cartItems.length === 0) return res.send("Cart is empty!");
+
+    const total = cartItems.reduce((sum, item) => sum + item.pcost * item.quantity, 0);
+
+    con.query("INSERT INTO orders (user_id, totalamt) VALUES (?, ?)", [userId, total], (err, orderResult) => {
+      if (err) return res.send("Error placing order: " + err.sqlMessage);
+
+      const orderId = orderResult.insertId;
+      const orderItems = cartItems.map(item => [orderId, item.pid, item.quantity, item.pcost]);
+
+      con.query("INSERT INTO order_items (order_id, pid, qty, pcost) VALUES ?", [orderItems], (err) => {
+        if (err) return res.send("Error adding order items");
+
+        con.query("DELETE FROM cart WHERE user_id = ?", [userId], (err) => {
+          if (err) return res.send("Order placed, but cart not cleared");
+
+          con.query("SELECT date FROM orders WHERE order_id = ?", [orderId], (err, dateResult) => {
+            if (err) return res.send("Error fetching order date");
+
+            const orderDate = dateResult[0].date;
+            res.render("pages/order_success", {orderId,orderDate,total,items: cartItems
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
 //ORDERS PAGE
 app.get('/orders', (req, res) => {
   const userId = "9juh8p"; 
@@ -237,14 +276,7 @@ app.get('/orders', (req, res) => {
     database: "ecommerce_app"
   });
 
-  const query = `
-    SELECT o.order_id, o.totalamt, o.date, oi.pid, p.pname, p.img_path, oi.qty, oi.pcost 
-    FROM orders o
-    JOIN order_items oi ON o.order_id = oi.order_id
-    JOIN products p ON oi.pid = p.id
-    WHERE o.user_id = ?
-    ORDER BY o.order_id DESC, oi.order_item_id ASC
-  `;
+  const query = "SELECT o.order_id, o.totalamt, o.date, oi.pid, p.pname, p.img_path, oi.qty, oi.pcost FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN products p ON oi.pid = p.id WHERE o.user_id = ? ORDER BY o.order_id DESC";
   con.query(query, [userId], (err, result) => {
     if (err) {
       console.error("Error fetching orders: ", err);
@@ -255,19 +287,45 @@ app.get('/orders', (req, res) => {
 });
 
 
+
+
 //PROFILE PAGE
-app.get('/login/userId', (req, res) => {
-    var con = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "22bai1452",
-        database: "ecommerce_app"
-    });
-    con.query('select user_name, user_id, email_id from userdetials where user_id=userId',[userId],(err, result) => {
+app.get('/login', (req, res) => {
+  const mysql = require("mysql");
+  const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "22bai1452",
+    database: "ecommerce_app"
+  });
+  const userId = "9juh8p"; 
+  con.query(
+    'SELECT user_name, email_id, add1, add2, city, state, pincode, phone FROM userdetails WHERE user_id = ?',
+    [userId],
+    (err, result) => {
       if (err) {
-        console.error(err);
-        return res.send("Could not fetch orders");
+        console.error("Error fetching profile details: ", err);
+        return res.send("Could not fetch profile details");
       }
-      res.render("pages/login", { profilepage: result });
-    });
+      if (result.length === 0) {
+        return res.send("User not found");
+      }
+      const user = {
+        user_name: result[0].user_name,
+        user_id: userId,
+        email_id: result[0].email_id,
+        add1: result[0].add1,
+        add2: result[0].add2,
+        city: result[0].city,
+        state: result[0].state,
+        pincode: result[0].pincode,
+        phone: result[0].phone
+      };
+      res.render("pages/login", { user });
+    }
+  );
 });
+
+
+
+
