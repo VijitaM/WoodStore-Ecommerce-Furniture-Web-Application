@@ -208,6 +208,27 @@
   background-color: #333;
   color: #ffa41c;
 }
+
+.pagination {
+  margin-left: 750px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.pagination a, .pagination strong {
+  display: inline-block;
+  padding: 8px 12px;
+  margin: 0 4px;
+  text-decoration: none;
+  color: #0e0d0d;
+  border: 2px solid #0d0d0d;
+  border-radius: 25px;
+}
+.pagination strong {
+  background-color: #e07b39;
+  color: white;
+  border-color: #e07b39;
+}
+
   </style>
 </head>
 
@@ -266,9 +287,19 @@
     <% }); %>
   </div>
 
-  <div style="text-align:center;">
+  <div class="pagination">
+  <% for(let i = 1; i <= totalPages; i++) { %>
+    <% if (i === currentPage) { %>
+      <strong><%= i %></strong>
+    <% } else { %>
+      <a href="/products?page=<%= i %>"><%= i %></a>
+    <% } %>
+  <% } %>
+</div>
+
+  <!--div style="text-align:center;">
     <a href="/website" class="back-link">← Back to Home Page</a>
-  </div>
+  </div-->
    
 <script>
   window.onload = function() {

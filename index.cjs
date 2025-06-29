@@ -30,20 +30,40 @@ app.get('/contact', (req, res) => {
 
 // PRODUCTS PAGE
 app.get('/products', (req, res) => {
-    var con = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "22bai1452",
-        database: "ecommerce_app"
-    });
-    con.query("CALL getproducts();", (err, result) => {
-        if (err) {
-            console.error("Error fetching products:", err);
-            return res.status(500).send("Database error");
-        }
-        res.render('pages/products', { result: result[0] });
-    });
+  var con = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "22bai1452",
+      database: "ecommerce_app"
+  });
+
+  const page = parseInt(req.query.page) || 1;
+  const limit = 5;
+  const offset = (page - 1) * limit;
+
+  con.query("CALL getproducts(?, ?)", [limit, offset], (err, result) => {
+      if (err) {
+          console.error("Error fetching products:", err);
+          return res.status(500).send("Database error");
+      }
+      con.query("SELECT COUNT(*) AS totalCount FROM products WHERE qty > 0", (countErr, countResult) => {
+          if (countErr) {
+              console.error("Count error:", countErr);
+              return res.status(500).send("Count error");
+          }
+
+          const totalProducts = countResult[0].totalCount;
+          const totalPages = Math.ceil(totalProducts / limit);
+
+          res.render('pages/products', {
+              result: result[0],
+              currentPage: page,
+              totalPages: totalPages
+          });
+      });
+  });
 });
+
 
 // PRODUCT DETAILS PAGE
 app.get('/product/:id', (req, res) => {
@@ -138,22 +158,45 @@ app.get('/cart/decrement/:pid', (req, res) => {
 
 //CATEGORY PAGE
 app.get('/category/:cid', (req, res) => {
-    var con = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "22bai1452",
-        database: "ecommerce_app"
-    });
-  const cid = req.params.cid;
+  var con = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "22bai1452",
+      database: "ecommerce_app"
+  });
 
-  con.query("SELECT p.id, p.pname, p.img_path, p.pcost, p.pbrand, p.sdes, c.cate_name FROM products p JOIN categories c ON p.cate_id = c.cate_id WHERE p.cate_id = ? and p.qty>0", [cid], (err, result) => {
-    if (err) {
-      res.send("Database error");
+  const cid = req.params.cid;
+  const page = parseInt(req.query.page) || 1;   
+  const limit = 5;
+  const offset = (page - 1) * limit;
+
+  const countQuery = "SELECT COUNT(*) AS totalCount FROM products WHERE cate_id = ? AND qty > 0";
+  con.query(countQuery, [cid], (countErr, countResult) => {
+    if (countErr) {
+      res.send("Database error (count)");
     } else {
-      res.render("pages/category", { products: result });
+      const totalProducts = countResult[0].totalCount;
+      const totalPages = Math.ceil(totalProducts / limit);
+
+      const productQuery = `SELECT p.id, p.pname, p.img_path, p.pcost, p.pbrand, p.sdes, c.cate_name FROM products p JOIN categories c ON p.cate_id = c.cate_id
+                            WHERE p.cate_id = ? AND p.qty > 0 LIMIT ? OFFSET ?`;
+
+      con.query(productQuery, [cid, limit, offset], (err, result) => {
+        if (err) {
+          res.send("Database error (products)");
+        } else {
+          res.render("pages/category", {
+            products: result,
+            currentPage: page,
+            totalPages: totalPages,
+            cateId: cid
+          });
+        }
+      });
     }
   });
 });
+
 
 //BRAND PAGE
 app.get('/brand/:pbrand', (req, res) => {
@@ -164,15 +207,36 @@ app.get('/brand/:pbrand', (req, res) => {
       database: "ecommerce_app"
   });
   const brand = req.params.pbrand;
-  const sql = "SELECT id, pname, img_path, pcost,pbrand, sdes FROM products WHERE pbrand = ? AND qty > 0";
-  con.query(sql, [brand], (err, result) => {
-    if (err) {
-      console.error("Error fetching brand products:", err);
-      return res.status(500).send("Database error");
+  const page = parseInt(req.query.page) || 1;
+  const limit = 5;
+  const offset = (page - 1) * limit;
+
+  const countQuery = "SELECT COUNT(*) AS totalCount FROM products WHERE pbrand = ? AND qty > 0";
+  con.query(countQuery, [brand], (countErr, countResult) => {
+    if (countErr) {
+      console.error("Database error (count)", countErr);
+      return res.status(500).send("Database error (count)");
     }
-    res.render("pages/brand", { brandProducts: result, pbrand: brand });
+
+    const totalProducts = countResult[0].totalCount;
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    const productQuery = `SELECT id, pname, img_path, pcost, pbrand, sdes FROM products WHERE pbrand = ? AND qty > 0 LIMIT ? OFFSET ?`;    
+    con.query(productQuery, [brand, limit, offset], (err, result) => {
+      if (err) {
+        console.error("Error fetching brand products:", err);
+        return res.status(500).send("Database error (products)");
+      }
+      res.render("pages/brand", {
+        brandProducts: result,
+        pbrand: brand,
+        currentPage: page,
+        totalPages: totalPages
+      });
+    });
   });
 });
+
 
 
 //CATEGORY COUNT ITEM ICON 
