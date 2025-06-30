@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0e7db;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin-top:4px;
+      margin-bottom: 3px;
+      text-align: center;
+      font-size: 40px;
+      font-family: Cambria;
+      color:  #7c3e25;
+    }
+    .product-form {
+      max-width: 400px;
+      margin: 20px auto;
+      background: #ffffff67;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    }
+    .product-form input {
+      width: 93%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .product-form button {
+      padding: 12px 20px;
+      background: #74b102;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      margin-left: 150px;
+    }
+    table {
+      width: 90%;
+      margin: 30px auto;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 3px solid #c9c7c7;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #9a948d;
+      color: white;
+    }
+    td{
+        background-color:#f0e7db64;
+    }
+    img {
+      height: 80px;
+    }
+    .btn {
+      padding: 8px 14px;
+      background: #68c616;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 0 4px;
+    }
+    .bttn {
+      padding: 8px 14px;
+      background: #f7461a;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 0 4px;
+    }
+    .action-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+  </style>
+</head>
+<body>
+
+  <h1>Admin Page</h1>
+  <% if (typeof message !== 'undefined' && message) { %>
+  <div style="background: #d4edda; color: #155724; padding: 12px 20px; margin: 20px auto; width: 90%; border: 1px solid #c3e6cb; border-radius: 5px; text-align: center;">
+    <%= message %>
+  </div>
+<% } %>
+
+  <div class="product-form">
+    <form action="/addproduct" method="post" enctype="multipart/form-data">
+      <input type="text" name="pname" placeholder="PRODUCT NAME" required>
+      <input type="number" name="pcost" placeholder="PRODUCT COST" required>
+      <input type="text" name="pbrand" placeholder="BRAND" required>
+      <input type="text" name="sdes" placeholder="SHORT DESCRIPTION" required>
+      <input type="text" name="pdes" placeholder="DESCRIPTION" required>
+      <input type="number" name="qty" placeholder="QUANTITY" required>
+      <select name="cate_id" required style="width: 100%; padding: 10px; margin: 10px 0; font-size: 16px;">
+        <option value="">Select Category</option>
+        <option value="4521">Redroom</option>
+        <option value="1813">Living</option>
+        <option value="7895">Study</option>
+        <option value="3648">Dining</option>
+      </select>
+      <input type="file" name="product_image" required>
+      <button type="submit">Add Product</button>
+    </form>
+  </div>
+
+  <table>
+    <tr>
+      <th>IMAGE</th>
+      <th>NAME</th>
+      <th>PRICE</th>
+      <th>BRAND</th>
+      <th>SHORT DESCRIPTION</th>
+      <th>ACTIONS</th>
+    </tr>
+    <% products.forEach(p => { %>
+      <tr>
+        <td><img src="/images/<%= p.img_path %>" alt=""></td>
+        <td><%= p.pname %></td>
+        <td><%= p.pbrand %></td>
+        <td><%= formatCurrency(p.pcost) %></td>
+        <td><%= p.sdes %></td>
+        <td>
+        <div class="action-buttons">
+          <a href="/editproduct/<%= p.id %>" class="btn">Edit</a>
+          <a href="/deleteproduct/<%= p.id %>" class="bttn">Delete</a>
+          </div>
+        </td>
+      </tr>
+    <% }); %>
+  </table>
+
+</body>
+</html>

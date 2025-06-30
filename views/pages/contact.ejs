@@ -10,57 +10,92 @@
       background: #f0e7db;
     }
 
-    div.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 50px;
-    background-color: #fff8f0;
-}
-
-div.links {
-    display: flex;
-    gap: 30px;
-}
-
-div.links a {
-    text-decoration: none;
-    color: black;
-    font-size: 20px;
-}
-
-    .navbar a:hover {
-      color: #f9d18f;
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
+    /* Navbar — same as home page */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       background-color: #fff8f0;
-      min-width: 160px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-      z-index: 1;
+      padding: 20px 50px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
     }
 
-    .dropdown-content div {
-      padding: 12px 18px;
+    .nav-left, .nav-center, .nav-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-left .logo {
+      font-size: 34px;
+      font-family: 'Cambria', serif;
+      color: #e07b39;
+      margin-right: 10px;
+    }
+
+    .nav-left .logoimg {
+      width: 50px;
+      height: 45px;
+      margin-left: 0;
+    }
+
+    .nav-center a {
+      text-decoration: none;
       color: #333;
-      font-size: 16px;
+      margin: 0 20px;
+      font-size: 20px;
+      transition: color 0.3s ease;
     }
 
-    .dropdown:hover .dropdown-content {
-      display: block;
+    .nav-center a:hover {
+      color: #e07b39;
     }
 
+    /* Dropdown adjustments */
+.nav-center .dropdown {
+  position: relative;
+}
+
+.nav-center .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fffaf2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  padding: 10px 0;
+  min-width: 150px;
+  top: 30px;
+  left: 0;
+}
+
+.nav-center .dropdown-content div {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #444;
+  cursor: pointer;
+}
+
+.nav-center .dropdown-content div:hover {
+  background-color: #ffe0c2;
+}
+
+.nav-center .dropdown:hover .dropdown-content {
+  display: block;
+}
+
+    .nav-right a img {
+      width: 36px;
+      margin-left: 18px;
+      vertical-align: middle;
+    }
+
+    .nav-right a img:hover {
+      transform: scale(1.15);
+    }
+
+    /* Page content styling */
     .banner {
       text-align: center;
       padding: 10px 20px 30px;
-      background-color: #fff8f0;
     }
 
     .banner h1 {
@@ -87,8 +122,51 @@ div.links a {
       margin: 15px 0;
       text-align: justify;
     }
+     .cart-count {
+          position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ff8708;
+        color: white;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 50%;
+        font-weight: bold;
+        }
+        .nav-right .dropdown {
+  position: relative;
+  display: inline-block;
+}
 
-    .contactinfo {
+.nav-right .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fffaf2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  padding: 10px 0;
+  min-width: 150px;
+  top: 40px;
+  right: 0;
+  z-index: 25;
+}
+
+.nav-right .dropdown-content div {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #444;
+  cursor: pointer;
+}
+
+.nav-right .dropdown-content div:hover {
+  background-color: #ffe0c2;
+}
+
+.nav-right .dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.contactinfo {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
@@ -126,21 +204,38 @@ div.links a {
 </head>
 
 <body>
+ <div class="navbar">
+    <div class="nav-left">
+      <img src="images/logo.png" class="logoimg">
+      <p class="logo"><b>WOOD <span style="color:black">STORE</span></b></p>
+    </div>
 
-  <div class="navbar">
-    <div class="links">
+    <div class="nav-center">
       <a href="/website">HOME</a>
       <a href="/about">ABOUT</a>
       <a href="/contact">CONTACT</a>
       <div class="dropdown">
-        <a href="#">CATEGORIES ▾</a>
+        <a href="#">CATEGORIES ▼</a>
         <div class="dropdown-content">
-          <div>Bed</div>
-          <div>Dining</div>
-          <div>Living</div>
-          <div>Study</div>
+          <a href="/category/4521">Bed</a>
+          <a href="/category/3648">Dining</a>
+          <a href="/category/1831">Living</a>
+          <a href="/category/7895">Study</a>
         </div>
       </div>
+    </div>
+
+    <div class="nav-right">
+      <a href="/cart">
+        <img src="/images/img7c.png" alt="cart">
+      </a>
+        <div class="dropdown">
+    <a href="#"><img src="/images/login1.png" alt="login"></a>
+    <div class="dropdown-content" style="right:0; left:auto; min-width:160px;">
+      <div onclick="location.href='/login'">Profile Details</div>
+      <div onclick="location.href='/orders'">Order History</div>
+  </div>
+</div>
     </div>
   </div>
 

@@ -221,12 +221,44 @@
   text-decoration: none;
   color: #0e0d0d;
   border: 2px solid #0d0d0d;
-  border-radius: 25px;
+  border-radius: 0px;
 }
 .pagination strong {
-  background-color: #e07b39;
+  background-color: #f29251;
   color: white;
-  border-color: #e07b39;
+  border-color: #f29251;
+}
+.nav-right .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-right .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fffaf2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  padding: 10px 0;
+  min-width: 150px;
+  top: 40px;
+  right: 0;
+  z-index: 25;
+}
+
+.nav-right .dropdown-content div {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #444;
+  cursor: pointer;
+}
+
+.nav-right .dropdown-content div:hover {
+  background-color: #ffe0c2;
+}
+
+.nav-right .dropdown:hover .dropdown-content {
+  display: block;
 }
 
   </style>
@@ -262,8 +294,15 @@
     <img src="/images/img7c.png" alt="cart">
     <span class="cart-count" id="cart-count">0</span>
   </a>
-  <a href="/login"><img src="/images/login1.png" alt="login"></a>
+  <div class="dropdown">
+    <a href="#"><img src="/images/login1.png" alt="login"></a>
+    <div class="dropdown-content" style="right:0; left:auto; min-width:160px;">
+      <div onclick="location.href='/login'">Profile Details</div>
+      <div onclick="location.href='/orders'">Order History</div>
+    </div>
+  </div>
 </div>
+
 </div>
 
   <h2 class="section-title">! Our Latest Collections !</h2>

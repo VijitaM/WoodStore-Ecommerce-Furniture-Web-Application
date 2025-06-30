@@ -390,6 +390,58 @@ app.get('/login', (req, res) => {
   );
 });
 
+// ADMIN PAGE
+app.get('/admin', (req, res) => {
+  const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "22bai1452",
+    database: "ecommerce_app"
+  });
 
+  con.query("SELECT * FROM products", (err, result) => {
+    if (err) return res.send("Error fetching products");
+    res.render("pages/admin", { products: result });
+  });
+});
+
+// ADMIN ADD PRODUCT
+const multer = require('multer');
+const path = require('path');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/images');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage });
+
+app.post('/addproduct', upload.single('product_image'), (req, res) => {
+  const { pname, pcost, pbrand, sdes, pdes, qty, cate_id } = req.body;
+  const imgPath = req.file.filename;
+
+  const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "22bai1452",
+    database: "ecommerce_app"
+  });
+  const sql = "INSERT INTO products (pname, pcost, img_path, pbrand, sdes, pdes, cate_id, qty) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  con.query(sql, [pname, pcost, imgPath, pbrand, sdes, pdes, cate_id, qty], (err) => {
+    if (err) {
+      console.error("Product insert error:", err);
+      return res.render("pages/admin", { products: [], message: "Error adding product" });
+    }
+    con.query("SELECT * FROM products", (err2, result) => {
+      if (err2) {
+        console.error("Product fetch error:", err2);
+        return res.render("pages/admin", { products: [], message: "Product added, but unable to fetch product list." });
+      }
+      res.render("pages/admin", { products: result, message: "Product added successfully!" });
+    });
+  });
+});
 
 
