@@ -18,7 +18,7 @@
       color:  #7c3e25;
     }
     .product-form {
-      max-width: 400px;
+      max-width: 600px;
       margin: 20px auto;
       background: #ffffff67;
       padding: 25px;
@@ -37,8 +37,30 @@
       border: none;
       cursor: pointer;
       border-radius: 6px;
-      margin-left: 150px;
+      margin-left: 250px;
     }
+    .product-form form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .product-form .form-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .product-form .form-row label {
+      width: 180px;
+      font-size: 16px;
+    }
+    .product-form .form-row input,.product-form .form-row select {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 16px;
+    }
+
     table {
       width: 90%;
       margin: 30px auto;
@@ -61,14 +83,6 @@
     img {
       height: 80px;
     }
-    .btn {
-      padding: 8px 14px;
-      background: #68c616;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      margin: 0 4px;
-    }
     .bttn {
       padding: 8px 14px;
       background: #f7461a;
@@ -77,44 +91,73 @@
       border-radius: 5px;
       margin: 0 4px;
     }
-    .action-buttons {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
-}
-
   </style>
 </head>
 <body>
 
-  <h1>Admin Page</h1>
+  <h1><img src="/images/admin1.png" alt="Admin" style="width:60px; height:60px;"> Admin Page</h1>
   <% if (typeof message !== 'undefined' && message) { %>
-  <div style="background: #d4edda; color: #155724; padding: 12px 20px; margin: 20px auto; width: 90%; border: 1px solid #c3e6cb; border-radius: 5px; text-align: center;">
+  <div id="flash-message" style="background: #cd7efa;color: white;padding: 12px 20px;text-align: center;
+    font-size: 16px;border-radius: 6px; margin: 15px auto;width: 90%;max-width: 500px;box-shadow: 0 3px 8px rgba(0,0,0,0.2);">
     <%= message %>
   </div>
 <% } %>
 
-  <div class="product-form">
-    <form action="/addproduct" method="post" enctype="multipart/form-data">
-      <input type="text" name="pname" placeholder="PRODUCT NAME" required>
-      <input type="number" name="pcost" placeholder="PRODUCT COST" required>
-      <input type="text" name="pbrand" placeholder="BRAND" required>
-      <input type="text" name="sdes" placeholder="SHORT DESCRIPTION" required>
-      <input type="text" name="pdes" placeholder="DESCRIPTION" required>
-      <input type="number" name="qty" placeholder="QUANTITY" required>
-      <select name="cate_id" required style="width: 100%; padding: 10px; margin: 10px 0; font-size: 16px;">
+<div class="product-form">
+  <form action="/addproduct" method="post" enctype="multipart/form-data">
+    
+    <div class="form-row">
+      <label>PRODUCT NAME:</label>
+      <input type="text" name="pname" required>
+    </div>
+
+    <div class="form-row">
+      <label>PRODUCT COST:</label>
+      <input type="number" name="pcost"  required>
+    </div>
+
+    <div class="form-row">
+      <label>BRAND:</label>
+      <input type="text" name="pbrand"  required>
+    </div>
+
+    <div class="form-row">
+      <label>SHORT DESCRIPTION:</label>
+      <input type="text" name="sdes"  required>
+    </div>
+
+    <div class="form-row">
+      <label>DESCRIPTION:</label>
+      <input type="text" name="pdes"  required>
+    </div>
+
+    <div class="form-row">
+      <label>QUANTITY:</label>
+      <input type="number" name="qty" required>
+    </div>
+
+    <div class="form-row">
+      <label>PRODUCT CATEGORY:</label>
+      <select name="cate_id" required>
         <option value="">Select Category</option>
-        <option value="4521">Redroom</option>
-        <option value="1813">Living</option>
-        <option value="7895">Study</option>
-        <option value="3648">Dining</option>
+        <% categories.forEach(category => { %>
+          <option value="<%= category.cate_id %>"><%= category.cate_name %></option>
+        <% }); %>
       </select>
+    </div>
+
+    <div class="form-row">
+      <label>PRODUCT IMAGE:</label>
       <input type="file" name="product_image" required>
+    </div>
+
+    <div class="form-row">
       <button type="submit">Add Product</button>
-    </form>
-  </div>
+    </div>
+
+  </form>
+</div>
+
 
   <table>
     <tr>
@@ -134,13 +177,28 @@
         <td><%= p.sdes %></td>
         <td>
         <div class="action-buttons">
-          <a href="/editproduct/<%= p.id %>" class="btn">Edit</a>
+          <!--a href="/editproduct/<%= p.id %>" class="btn">Edit</a-->
           <a href="/deleteproduct/<%= p.id %>" class="bttn">Delete</a>
           </div>
         </td>
       </tr>
     <% }); %>
   </table>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('success');  
+  window.onload = function() {
+    const flashMsg = document.getElementById('flash-message');
+    if(flashMsg){
+      setTimeout(() => { flashMsg.style.display = 'none'; }, 3000);
+    }
+  };
+  if(success){
+    const url=new URL(window.location);
+    url.searchParams.delete('success');
+    window.history.replaceState({}, document.title, url);
+  }
+</script>
 
 </body>
 </html>

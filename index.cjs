@@ -159,84 +159,63 @@ app.get('/cart/decrement/:pid', (req, res) => {
 //CATEGORY PAGE
 app.get('/category/:cid', (req, res) => {
   var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "22bai1452",
-      database: "ecommerce_app"
+    host: "localhost",
+    user: "root",
+    password: "22bai1452",
+    database: "ecommerce_app"
   });
-
   const cid = req.params.cid;
-  const page = parseInt(req.query.page) || 1;   
+  const page = parseInt(req.query.page) || 1;
   const limit = 5;
   const offset = (page - 1) * limit;
 
-  const countQuery = "SELECT COUNT(*) AS totalCount FROM products WHERE cate_id = ? AND qty > 0";
-  con.query(countQuery, [cid], (countErr, countResult) => {
+  con.query("CALL get_category(?)", [cid], (countErr, countResult) => {
     if (countErr) {
-      res.send("Database error (count)");
-    } else {
-      const totalProducts = countResult[0].totalCount;
-      const totalPages = Math.ceil(totalProducts / limit);
-
-      const productQuery = `SELECT p.id, p.pname, p.img_path, p.pcost, p.pbrand, p.sdes, c.cate_name FROM products p JOIN categories c ON p.cate_id = c.cate_id
-                            WHERE p.cate_id = ? AND p.qty > 0 LIMIT ? OFFSET ?`;
-
-      con.query(productQuery, [cid, limit, offset], (err, result) => {
-        if (err) {
-          res.send("Database error (products)");
-        } else {
-          res.render("pages/category", {
-            products: result,
-            currentPage: page,
-            totalPages: totalPages,
-            cateId: cid
-          });
-        }
-      });
+      console.error("Error fetching product count:", countErr); return res.send("Database error (count)");
     }
+
+    const totalProducts = countResult[0][0].totalCount;
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    con.query("CALL get_category_page(?, ?, ?)", [cid, limit, offset], (err, result) => {
+      if (err) {
+        console.error("Error fetching products:", err); return res.send("Database error (products)");
+      }
+      res.render("pages/category", {products: result[0],currentPage: page,totalPages: totalPages,cateId: cid
+      });
+    });
   });
 });
-
 
 //BRAND PAGE
 app.get('/brand/:pbrand', (req, res) => {
   var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "22bai1452",
-      database: "ecommerce_app"
+    host: "localhost",
+    user: "root",
+    password: "22bai1452",
+    database: "ecommerce_app"
   });
   const brand = req.params.pbrand;
   const page = parseInt(req.query.page) || 1;
   const limit = 5;
   const offset = (page - 1) * limit;
 
-  const countQuery = "SELECT COUNT(*) AS totalCount FROM products WHERE pbrand = ? AND qty > 0";
-  con.query(countQuery, [brand], (countErr, countResult) => {
+  con.query("CALL get_brand(?)", [brand], (countErr, countResult) => {
     if (countErr) {
-      console.error("Database error (count)", countErr);
-      return res.status(500).send("Database error (count)");
+      console.error("Database error (count)", countErr); return res.status(500).send("Database error (count)");
     }
 
-    const totalProducts = countResult[0].totalCount;
+    const totalProducts = countResult[0][0].totalCount;
     const totalPages = Math.ceil(totalProducts / limit);
-
-    const productQuery = `SELECT id, pname, img_path, pcost, pbrand, sdes FROM products WHERE pbrand = ? AND qty > 0 LIMIT ? OFFSET ?`;    
-    con.query(productQuery, [brand, limit, offset], (err, result) => {
+    con.query("CALL get_brand_page(?, ?, ?)", [brand, limit, offset], (err, result) => {
       if (err) {
-        console.error("Error fetching brand products:", err);
-        return res.status(500).send("Database error (products)");
+        console.error("Error fetching brand products:", err); return res.status(500).send("Database error (products)");
       }
-      res.render("pages/brand", {
-        brandProducts: result,
-        pbrand: brand,
-        currentPage: page,
-        totalPages: totalPages
+      res.render("pages/brand", {brandProducts: result[0],pbrand: brand,currentPage: page,totalPages: totalPages
       });
     });
   });
 });
-
 
 
 //CATEGORY COUNT ITEM ICON 
@@ -249,11 +228,7 @@ app.get('/cartitemcount/:userid', (req, res) => {
     password: "22bai1452",
     database: "ecommerce_app"
 });
-
-  conn.query(sql, [uid], (err, result) => {
-    if (err) return res.status(500).send(err);
-    res.json({ count: result[0][0].itemCount });
-  });
+  conn.query(sql, [uid], (err, result) => { if (err) return res.status(500).send(err); res.json({ count: result[0][0].itemCount });});
 });
 
 //ORDER PLACING 
@@ -331,27 +306,21 @@ app.post('/placeorder', (req, res) => {
 
 //ORDERS PAGE
 app.get('/orders', (req, res) => {
-  const userId = "9juh8p"; 
-
+  const userId = "9juh8p";
   const con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "22bai1452",
     database: "ecommerce_app"
   });
-
-  const query = "SELECT o.order_id, o.totalamt, o.date, oi.pid, p.pname, p.img_path, oi.qty, oi.pcost FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN products p ON oi.pid = p.id WHERE o.user_id = ? ORDER BY o.order_id DESC";
+  const query = "CALL get_user_orders(?)";
   con.query(query, [userId], (err, result) => {
     if (err) {
-      console.error("Error fetching orders: ", err);
-      return res.send("Could not fetch orders");
+      console.error("Error calling stored procedure: ", err); return res.send("Could not fetch orders");
     }
-    res.render("pages/orders", { orders: result });
-  });
+    res.render("pages/orders", { orders: result[0] }); 
 });
-
-
-
+});
 
 //PROFILE PAGE
 app.get('/login', (req, res) => {
@@ -362,48 +331,50 @@ app.get('/login', (req, res) => {
     password: "22bai1452",
     database: "ecommerce_app"
   });
+
   const userId = "9juh8p"; 
-  con.query(
-    'SELECT user_name, email_id, add1, add2, city, state, pincode, phone FROM userdetails WHERE user_id = ?',
-    [userId],
-    (err, result) => {
-      if (err) {
-        console.error("Error fetching profile details: ", err);
-        return res.send("Could not fetch profile details");
-      }
-      if (result.length === 0) {
-        return res.send("User not found");
-      }
-      const user = {
-        user_name: result[0].user_name,
-        user_id: userId,
-        email_id: result[0].email_id,
-        add1: result[0].add1,
-        add2: result[0].add2,
-        city: result[0].city,
-        state: result[0].state,
-        pincode: result[0].pincode,
-        phone: result[0].phone
-      };
-      res.render("pages/login", { user });
+  const query = "CALL getuser_details(?)";
+
+  con.query(query, [userId], (err, result) => {
+    if (err) {
+      console.error("Error calling stored procedure: ", err); return res.send("Could not fetch profile details");
     }
-  );
+    const user = {
+      user_name: result[0][0].user_name,user_id: userId,email_id: result[0][0].email_id,add1: result[0][0].add1,
+      add2: result[0][0].add2,city: result[0][0].city,state: result[0][0].state,pincode: result[0][0].pincode,phone: result[0][0].phone
+    };
+    res.render("pages/login", { user });
+  });
 });
+
 
 // ADMIN PAGE
 app.get('/admin', (req, res) => {
+  const success = req.query.success;
+
   const con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "22bai1452",
     database: "ecommerce_app"
   });
-
-  con.query("SELECT * FROM products", (err, result) => {
-    if (err) return res.send("Error fetching products");
-    res.render("pages/admin", { products: result });
+  con.query("SELECT * FROM categories", (catErr, categories) => {
+    if (catErr) {
+      console.error("Category fetch error:", catErr); return res.send("Error fetching categories.");
+    }
+    con.query("SELECT * FROM products", (prodErr, products) => {
+      if (prodErr) {
+        console.error("Product fetch error:", prodErr);
+        return res.send("Error fetching products.");
+      }
+      let message = "";
+      if (success === '1') message = "Product added successfully!";
+      else if (success === '0') message = "Error adding product.";
+      res.render("pages/admin", { products, categories, message });
+    });
   });
 });
+
 
 // ADMIN ADD PRODUCT
 const multer = require('multer');
@@ -417,7 +388,6 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage });
-
 app.post('/addproduct', upload.single('product_image'), (req, res) => {
   const { pname, pcost, pbrand, sdes, pdes, qty, cate_id } = req.body;
   const imgPath = req.file.filename;
@@ -428,20 +398,27 @@ app.post('/addproduct', upload.single('product_image'), (req, res) => {
     password: "22bai1452",
     database: "ecommerce_app"
   });
-  const sql = "INSERT INTO products (pname, pcost, img_path, pbrand, sdes, pdes, cate_id, qty) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-  con.query(sql, [pname, pcost, imgPath, pbrand, sdes, pdes, cate_id, qty], (err) => {
+  const addProductQuery = "CALL admin_add(?, ?, ?, ?, ?, ?, ?, ?)";
+  con.query(addProductQuery, [pname, pcost, imgPath, pbrand, sdes, pdes, cate_id, qty], (err) => {
     if (err) {
-      console.error("Product insert error:", err);
-      return res.render("pages/admin", { products: [], message: "Error adding product" });
+      console.error("Product insert error via procedure:", err);
+      return res.redirect("/admin?success=0");
     }
-    con.query("SELECT * FROM products", (err2, result) => {
-      if (err2) {
-        console.error("Product fetch error:", err2);
-        return res.render("pages/admin", { products: [], message: "Product added, but unable to fetch product list." });
-      }
-      res.render("pages/admin", { products: result, message: "Product added successfully!" });
-    });
+    res.redirect("/admin?success=1");
   });
 });
 
+// ADMIN DELETE PRODUCT
+app.get('/deleteproduct/:id', (req, res) => {
+   var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "22bai1452",
+    database: "ecommerce_app"
+});
+  con.query("DELETE FROM products WHERE id = ?", [req.params.id], (err) => {
+    if (err) return res.send("Error deleting product");
+    res.redirect('/admin');
+  });
+});
 
