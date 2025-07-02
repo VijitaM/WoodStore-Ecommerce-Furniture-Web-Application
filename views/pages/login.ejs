@@ -8,6 +8,64 @@
       background: radial-gradient(circle, #fff8f0 0%, #ffe6cc 40%, #ffd5b5 100%);
       margin: 0;
     }
+    .footer {
+  margin-top: 60px;
+  background-color: #f0dac1;
+  color: #544c4c;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: auto;
+  gap: 30px;
+}
+
+.footer-column{
+  flex: 1 1 240px;
+  min-width: 220px;
+}
+
+.footer-column h4 {
+  margin-bottom: 18px;
+  font-size: 22px;
+  color: #863f34;
+  font-weight: 600;
+  border-bottom: 2px solid #863f34;
+  padding-bottom: 6px;
+}
+
+.footer-column a {
+  display: block;
+  color: #141414;
+  text-decoration: none;
+  margin: 10px 0;
+  font-size: 17px;
+  transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+  color: #863f34;
+  text-rendering:optimizeSpeed;
+  text-decoration:underline;
+}
+
+.footer-column1 p img {
+  vertical-align: middle;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #0a0a0a;
+  font-size: 15px;
+  color: #111111;
+}
 
     /* Navbar Styles */
     .navbar {
@@ -197,12 +255,12 @@
 <!-- Navbar -->
 <div class="navbar">
   <div class="nav-left">
-    <img src="/images/logo.png" class="logoimg">
-    <p class="logo"><b>WOOD <span style="color:black">STORE</span></b></p>
+    <a href="/"><img src="images/logo.png" class="logoimg"></a>
+    <a href="/" style="text-decoration: none;color: inherit;"><p class="logo"><b>WOOD <span style="color:black">STORE</span></b></p></a>
   </div>
 
   <div class="nav-center">
-    <a href="/website">HOME</a>
+    <a href="/">HOME</a>
     <a href="/about">ABOUT</a>
     <a href="/contact">CONTACT</a>
     <div class="dropdown">
@@ -234,30 +292,60 @@
 
 <div class="page-content">
   <h2>MY ACCOUNT</h2>
-
-  <!-- Profile Details -->
   <div class="card">
     <h3><img src="/images/profdet-removebg-preview.png" width="30" border-radius="40px" alt="User Icon">  Profile Details</h3>
     <p><strong>Name:</strong> <%= user.user_name %></p>
     <p><strong>Email:</strong> <%= user.email_id %></p>
     <p><strong>User ID:</strong> <%= user.user_id %></p>
   </div>
-
-  <!-- Address Details -->
   <div class="card">
     <h3><img src="/images/add-removebg-preview.png" width="40" border-radius="20px" alt="Address Icon">Address</h3>
     <p><%= user.add1 %> <%= user.add2 %></p>
     <p><%= user.city %> <%= user.state %> - <%= user.pincode %></p>
     <p><img src="/images/phone-removebg-preview.png" width="40">  <%= user.phone %></p>
   </div>
-
-  <!-- Orders Button -->
   <div class="card" style="text-align:center;">
     <h3><img src="/images/orderhis-removebg-preview.png" width="40" border-radius="20px" alt="Address Icon">  Order History</h3>
     <a href="/orders" class="btn">View Your Orders</a>
   </div>
 
 </div>
+ <footer class="footer">
+  <div class="footer-container">
+    <div class="footer-column">
+      <h4>QUICK LINKS</h4>
+      <a href="/website">Home</a>
+      <a href="/about">About Us</a>
+      <a href="/contact">Contact</a>
+      <a href="/products">Products</a>
+    </div>
+    <div class="footer-column">
+      <h4>CATEGORIES</h4>
+      <a href="/category/4521">Bedroom</a>
+      <a href="/category/3648">Dining</a>
+      <a href="/category/1831">Living</a>
+      <a href="/category/7895">Study</a>
+    </div>
+     <div class="footer-column">
+      <h4>BRANDS</h4>
+      <a href="/brand/Ikea">Ikea</a>
+      <a href="/brand/Sleepwell">Sleepwell</a>
+      <a href="/brand/Godrej">Godrej</a>
+      <a href="/brand/wipro">Wipro</a>
+      <a href="/brand/Spacewood">Spacewood</a>
+      </div>
+    <div class="footer-column">
+      <h4>CONTACT US</h4>
+      <p>Email: support@woodstore.com</p>
+      <p>Contact: 234 567 890</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 <span style="color:#ff8708;">WOOD STORE</span>. All rights reserved.
+  </div>
+</footer>
+
 <script>
   window.onload = function() {
     const userId = "9juh8p";

@@ -95,18 +95,52 @@
     .nav-right a img:hover {
       transform: scale(1.15);
     }
+
+    .nav-right .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-right .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fffaf2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  padding: 10px 0;
+  min-width: 150px;
+  top: 40px;
+  right: 0;
+  z-index: 25;
+}
+
+.nav-right .dropdown-content div {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #444;
+  cursor: pointer;
+}
+
+.nav-right .dropdown-content div:hover {
+  background-color: #ffe0c2;
+}
+
+.nav-right .dropdown:hover .dropdown-content {
+  display: block;
+}
+
   </style>
 </head>
 <body>
 <!-- Navbar -->
 <div class="navbar">
   <div class="nav-left">
-    <img src="/images/logo.png" class="logoimg">
-    <p class="logo"><b>WOOD <span style="color:black">STORE</span></b></p>
+    <a href="/"><img src="images/logo.png" class="logoimg"></a>
+    <a href="/" style="text-decoration: none;color: inherit;"><p class="logo"><b>WOOD <span style="color:black">STORE</span></b></p></a>
   </div>
 
   <div class="nav-center">
-    <a href="/website">HOME</a>
+    <a href="/">HOME</a>
     <a href="/about">ABOUT</a>
     <a href="/contact">CONTACT</a>
     <div class="dropdown">
@@ -121,8 +155,14 @@
   </div>
 
   <div class="nav-right">
-    <a href="/login"><img src="/images/login1.png" alt="login"></a>
+   <div class="dropdown">
+    <a href="#"><img src="/images/login1.png" alt="login"></a>
+    <div class="dropdown-content" style="right:0; left:auto; min-width:160px;">
+      <div onclick="location.href='/login'">Profile Details</div>
+      <div onclick="location.href='/orders'">Order History</div>
   </div>
+</div>
+</div>
 </div>
 
 <h3 style="text-align:center; margin-top:150px">Order Placed Successfully!</h3>

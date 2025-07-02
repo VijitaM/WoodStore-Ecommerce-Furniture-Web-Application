@@ -67,25 +67,34 @@ app.get('/products', (req, res) => {
 
 // PRODUCT DETAILS PAGE
 app.get('/product/:id', (req, res) => {
-    var con = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "22bai1452",
-        database: "ecommerce_app"
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "22bai1452",
+    database: "ecommerce_app"
+  });
+  const prodId = req.params.id;
+  const userId = "9juh8p";  
+  con.query("CALL getproddet(?);", [prodId], (err, result) => {
+    if (err) {
+      console.error("Error fetching product details:", err);
+      return res.status(500).send("Database error");
+    }
+    const product = result[0][0];
+    if (!product) {
+      return res.status(404).send("Product not found");
+    }
+    con.query("SELECT quantity FROM cart WHERE user_id = ? AND pid = ?", [userId, prodId], (err2, cartResult) => {
+      if (err2) throw err2;
+      const qtyInCart = cartResult.length > 0 ? cartResult[0].quantity : 0;
+      con.query("CALL getsimilar_prod(?, ?)", [product.cate_id, prodId], (err3, similarResult) => {
+        if (err3) throw err3;
+        res.render('pages/product_details', {product: product,qty: qtyInCart,similarProducts: similarResult[0]});
+      });
     });
-    const prodId = req.params.id;
-    con.query("CALL getproddet(?);", [prodId], (err, result) => {
-        if (err) {
-            console.error("Error fetching product details:", err);
-            return res.status(500).send("Database error");
-        }
-        con.query("SELECT quantity FROM cart WHERE user_id = ? AND pid = ?", [userId, prodId], (err2, cartResult) => {
-            if (err2) throw err2;
-             const qtyInCart = cartResult.length > 0 ? cartResult[0].quantity : 0;
-        res.render('pages/product_details', { product: result[0][0],qty: qtyInCart });
-    });
+  });
 });
-});
+
 
 
 // ADD TO CART
@@ -421,4 +430,5 @@ app.get('/deleteproduct/:id', (req, res) => {
     res.redirect('/admin');
   });
 });
+
 
