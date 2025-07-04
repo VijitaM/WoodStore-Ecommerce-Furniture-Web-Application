@@ -253,15 +253,5 @@
  
 <%- include('footer') %>
 
-<script>
-  window.onload = function() {
-    const userId = "9juh8p";
-    fetch(`/cartitemcount/${userId}`)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("cart-count").innerText = data.count;
-      });
-  };
-</script>
 </body>
 </html>
