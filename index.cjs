@@ -5,6 +5,8 @@ var mysql = require('mysql2')
 var app = express();
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+
 
 app.listen(8080);
 
@@ -74,27 +76,45 @@ app.get('/product/:id', (req, res) => {
     database: "ecommerce_app"
   });
   const prodId = req.params.id;
-  const userId = "9juh8p";  
+  const userId = "9juh8p";
+
   con.query("CALL getproddet(?);", [prodId], (err, result) => {
-    if (err) {
-      console.error("Error fetching product details:", err);
-      return res.status(500).send("Database error");
-    }
+    if (err) return res.status(500).send("Database error");
     const product = result[0][0];
-    if (!product) {
-      return res.status(404).send("Product not found");
-    }
+    if (!product) return res.status(404).send("Product not found");
     con.query("SELECT quantity FROM cart WHERE user_id = ? AND pid = ?", [userId, prodId], (err2, cartResult) => {
       if (err2) throw err2;
       const qtyInCart = cartResult.length > 0 ? cartResult[0].quantity : 0;
       con.query("CALL getsimilar_prod(?, ?)", [product.cate_id, prodId], (err3, similarResult) => {
         if (err3) throw err3;
-        res.render('pages/product_details', {product: product,qty: qtyInCart,similarProducts: similarResult[0]});
+        con.query("SELECT r.*, u.user_name FROM reviews r JOIN userdetails u ON r.user_id = u.user_id WHERE r.pid = ?", [prodId], (err4, reviewsResult) => {
+          if (err4) throw err4;
+          res.render('pages/product_details', {product: product,qty: qtyInCart,similarProducts: similarResult[0],userId: userId,reviews: reviewsResult  });
+        });
       });
     });
   });
 });
 
+
+app.post('/submitreview/:id', (req, res) => {
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "22bai1452",
+    database: "ecommerce_app"
+  });
+  const prodId = req.params.id;
+  const { user_id, rating, opinion } = req.body;
+
+  const insertQuery = "INSERT INTO reviews (pid, user_id, rating, rev_text) VALUES (?, ?, ?, ?)";
+  con.query(insertQuery, [prodId, user_id, rating, opinion], (err, result) => {
+    if (err) {
+      console.error("Error inserting review:", err); return res.status(500).send("Failed to submit review");
+    }
+    res.redirect('/product/' + prodId);
+  });
+});
 
 
 // ADD TO CART

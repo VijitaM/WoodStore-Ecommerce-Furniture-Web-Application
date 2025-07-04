@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title><%= product.pname %></title>
   <style>
     body { 
@@ -152,7 +153,7 @@
 
     .back-link {
       display: inline-block;
-      margin: 5px 15px;
+      margin-top:50px;
       text-align: center;
       font-size: 18px;
       text-decoration: none;
@@ -277,6 +278,104 @@
   border-radius: 50%;
   font-weight: bold;
 }
+
+.review-section {
+  display: flex;
+  gap: 30px;
+  margin-top:100px;
+  margin-left:200px;
+  max-width: 1100px;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.review-form {
+  flex: 1 1 380px;
+  background: #fff8f082;
+  padding: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.reviews-list {
+  flex: 2 1 650px;
+  background: #fff8f082;
+  padding: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow-y: auto;
+  max-height: 420px;
+}
+
+.reviews-list h3 {
+  margin-bottom: 18px;
+  font-size: 24px;
+  color: #333;
+}
+
+.reviews-list p {
+  margin: 8px 0;
+  color: #444;
+  font-size: 16px;
+}
+
+.reviews-list hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 12px 0;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  font-size: 26px;
+  color: #f0ab0b;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.rating .star{
+  cursor: pointer;
+}
+.rating .star:hover{
+  transform: scale(1.2);
+}
+
+textarea {
+  width: 93%;
+  background: #f8f0f0;
+  padding: 12px;
+  border: 1px solid #1f1e1e;
+  border-radius: 6px;
+  resize: vertical;
+  min-height: 100px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.btn-grp {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.btn-grp button {
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.bttn-submit {
+  background: #ffa41c;
+  color: #222;
+  font-weight: 600;
+  margin-left:2px;
+}
+
   </style>
 </head>
 <body>
@@ -347,6 +446,72 @@
 
   </div>
 </div>
+
+<div class="review-section">
+  
+  <div class="review-form">
+    <h3>Give your review...</h3>
+    <form action="/submitreview/<%= product.id %>" method="POST">
+      <div class="rating">
+        <input type="hidden" name="user_id" value="<%= userId %>">
+        <input type="number" name="rating" id='rating' hidden> 
+        <i class="fa fa-star-o star" data-value="1"></i>
+        <i class="fa fa-star-o star" data-value="2"></i>
+        <i class="fa fa-star-o star" data-value="3"></i>
+        <i class="fa fa-star-o star" data-value="4"></i>
+        <i class="fa fa-star-o star" data-value="5"></i>
+      </div>
+      <textarea name="opinion" cols="30" rows="5" placeholder="Your opinion.."></textarea>
+      <div class="btn-grp">
+        <button type="submit" class="bttn-submit">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="reviews-list">
+    <h3>Product Reviews</h3>
+    <% if (reviews.length > 0) { %>
+      <% reviews.forEach(function(review) { %>
+        <p><strong><%= review.user_name %></strong></p>
+        <p>
+  <% for(let i=1; i<=5; i++) { %>
+    <% if(i <= review.rating) { %>
+      <i class="fa fa-star" style="color:#f0ab0b"></i>
+    <% } else { %>
+      <i class="fa fa-star-o" style="color:#f0ab0b"></i>
+    <% } %>
+  <% } %>
+</p>
+        <p><%= review.rev_text %></p>
+        <hr>
+      <% }) %>
+    <% } else { %>
+      <p>No reviews yet for this product.</p>
+    <% } %>
+  </div>
+
+</div>
+
+
+
+<script>
+  const allStar=document.querySelectorAll('.rating .star');
+  const ratinginput = document.getElementById('rating');
+  allStar.forEach((item,idx)=>{
+    item.addEventListener('click',function(){
+      const value=item.getAttribute('data-value');
+      ratinginput.value=value;
+      allStar.forEach(i=> {
+        i.classList.replace('fa-star','fa-star-o');
+      })
+      for(let i=0;i<=allStar.length;i++){
+        if(i<=idx){
+        allStar[i].classList.replace('fa-star-o','fa-star');
+      }
+    }
+    })
+  })
+</script>
 
 
   <div style="text-align:center;">
