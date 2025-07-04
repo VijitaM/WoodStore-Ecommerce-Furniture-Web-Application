@@ -412,6 +412,19 @@ textarea {
 
     <div class="product-details">
       <h2><%= product.pname %></h2>
+      <p style="font-size:18px; color:#444; margin-bottom:15px;">
+      <p class="overall-rating" style="font-size: 20px; color: #f0ab0b; margin: 15px 0;">
+  <% if (avgRating !== null && !isNaN(avgRating)) { 
+       const roundedRating = Math.floor(avgRating);
+  %>
+    <% for (let i = 0; i < roundedRating; i++) { %>
+      <i class="fa fa-star"></i>
+    <% } %>
+    <b style="color:#0d0d0d;"> (<%= roundedRating %>/5)</b>
+  <% } else { %>
+    <!--span style="color:#555;">No ratings yet.</span-->
+  <% } %>
+</p>
       <p><span>Brand:</span> <%= product.pbrand %></p>
       <p><span>Description:</span> <%= product.pdes %></p>
       <p class="price"><span>Price: </span><b><%= formatCurrency(product.pcost) %></b></p>
@@ -454,14 +467,14 @@ textarea {
     <form action="/submitreview/<%= product.id %>" method="POST">
       <div class="rating">
         <input type="hidden" name="user_id" value="<%= userId %>">
-        <input type="number" name="rating" id='rating' hidden> 
+        <input type="number" name="rating" id='rating' hidden required> 
         <i class="fa fa-star-o star" data-value="1"></i>
         <i class="fa fa-star-o star" data-value="2"></i>
         <i class="fa fa-star-o star" data-value="3"></i>
         <i class="fa fa-star-o star" data-value="4"></i>
         <i class="fa fa-star-o star" data-value="5"></i>
       </div>
-      <textarea name="opinion" cols="30" rows="5" placeholder="Your opinion.."></textarea>
+      <textarea name="opinion" cols="30" rows="5" placeholder="Your opinion.." required></textarea>
       <div class="btn-grp">
         <button type="submit" class="bttn-submit">Submit</button>
       </div>

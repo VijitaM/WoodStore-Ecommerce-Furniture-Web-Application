@@ -75,6 +75,7 @@ app.get('/product/:id', (req, res) => {
     password: "22bai1452",
     database: "ecommerce_app"
   });
+
   const prodId = req.params.id;
   const userId = "9juh8p";
 
@@ -87,16 +88,18 @@ app.get('/product/:id', (req, res) => {
       const qtyInCart = cartResult.length > 0 ? cartResult[0].quantity : 0;
       con.query("CALL getsimilar_prod(?, ?)", [product.cate_id, prodId], (err3, similarResult) => {
         if (err3) throw err3;
-        con.query("SELECT r.*, u.user_name FROM reviews r JOIN userdetails u ON r.user_id = u.user_id WHERE r.pid = ?", [prodId], (err4, reviewsResult) => {
+        con.query("CALL get_reviews(?)", [prodId], (err4, reviewsResult) => {
           if (err4) throw err4;
-          res.render('pages/product_details', {product: product,qty: qtyInCart,similarProducts: similarResult[0],userId: userId,reviews: reviewsResult  });
+          con.query("CALL getreview_rating(?)", [prodId], (err5, avgResult) => {
+            if (err5) throw err5;
+            const avgRating = avgResult[0][0].avg_rating;
+            res.render('pages/product_details', {product: product,qty: qtyInCart,similarProducts: similarResult[0],userId: userId,reviews: reviewsResult[0],avgRating: avgRating});
+          });
         });
       });
     });
   });
 });
-
-
 app.post('/submitreview/:id', (req, res) => {
   var con = mysql.createConnection({
     host: "localhost",
@@ -107,8 +110,7 @@ app.post('/submitreview/:id', (req, res) => {
   const prodId = req.params.id;
   const { user_id, rating, opinion } = req.body;
 
-  const insertQuery = "INSERT INTO reviews (pid, user_id, rating, rev_text) VALUES (?, ?, ?, ?)";
-  con.query(insertQuery, [prodId, user_id, rating, opinion], (err, result) => {
+  con.query("CALL submit_reviewform(?,?,?,?)", [prodId, user_id, rating, opinion], (err, result) => {
     if (err) {
       console.error("Error inserting review:", err); return res.status(500).send("Failed to submit review");
     }
@@ -168,15 +170,12 @@ app.get('/cart/decrement/:pid', (req, res) => {
     const pid = req.params.pid;
     con.connect(err => {
         if (err) return res.status(500).send("Database connection error");
-
         const sql = `UPDATE cart SET quantity = quantity - 1 WHERE user_id = ? AND pid = ? AND quantity > 0`;
         con.query(sql, [userId, pid], (err) => {
             if (err) {
                 console.error(err);
                 return res.status(500).send("Database update error");
             }
-
-            // Delete if quantity hits 0
             const deleteSql = `DELETE FROM cart WHERE user_id = ? AND pid = ? AND quantity = 0`;
             con.query(deleteSql, [userId, pid], () => {
                 res.redirect('/cart');
