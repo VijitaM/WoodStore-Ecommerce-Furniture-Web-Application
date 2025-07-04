@@ -147,8 +147,7 @@ app.get('/cart', (req, res) => {
     });
     con.query("CALL getcartitems(?);", [userId], (err, result) => {
         if (err) {
-            console.error("Error fetching cart items:", err);
-            return res.status(500).send("Database error");
+            console.error("Error fetching cart items:", err);return res.status(500).send("Database error");
         }
         res.render('pages/cart', { cart: result[0] });
     });
