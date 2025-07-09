@@ -14,8 +14,8 @@ This project showcases the integration of server-side rendering, database-driven
 - Clean, responsive design with modern CSS and FontAwesome icons
 
 #### Tech Stack:
-Backend: Node.js, Express.js
-Database: MySQL
-Frontend: EJS templates, CSS, FontAwesome
-Other: MySQL Stored Procedures, Express Routing
+- Backend: Node.js, Express.js
+- Database: MySQL
+- Frontend: EJS templates, CSS, FontAwesome
+- Other: MySQL Stored Procedures, Express Routing
 
